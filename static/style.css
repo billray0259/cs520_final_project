@@ -1,0 +1,16 @@
+body {
+    font-family: sans-serif;
+    background-color: #f1f1f1;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 2em;
+    color: #555;
+  }
+  
+  p {
+    font-size: 1.2em;
+    color: #777;
+  }
+  
