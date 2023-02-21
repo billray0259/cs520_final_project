@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Climbing App{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center my-5">
+        <div class="col-md-6">
+            <h1 class="mb-3">Register</h1>
+            <form method="POST">
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="confirm-password" class="form-label">Confirm password</label>
+                    <input type="password" class="form-control" id="confirm-password" name="confirm_password" required>
+                </div>
+                <div class="mb-3">
+                    <label for="first-name" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="first-name" name="first_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="last-name" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="last-name" name="last_name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="birthdate" class="form-label">Birthdate</label>
+                    <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+                </div>
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                    <label class="form-check-label" for="terms">I agree to the <a href="{{ url_for('terms') }}">terms of use</a>.</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
