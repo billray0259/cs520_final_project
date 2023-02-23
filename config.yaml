@@ -1,5 +1,5 @@
 app_name: RouteRater
 secret_key: JeUb926ecR4zHKNhb2ZJsA==
-mongodb_ip_address: 192.168.0.223
-mongodb_port: 27017
+mongodb_ip_address: 24.34.20.62
+mongodb_port: 57017
 mongodb_database: RouteRater
