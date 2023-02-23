@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ app_name }} - Home{% endblock %}
+
+{% block content %}
+  <h1>Welcome to {{ app_name }}!</h1>
+  <p>Scan the QR code at the bottom of the climbing route to rate its difficulty and help improve accuracy.</p>
+  
+  {% if 'user_id' not in session %}
+    <p><a href="{{ url_for('login') }}">Log in</a> or <a href="{{ url_for('register') }}">register</a> to rate routes and track your progress.</p>
+  {% endif %}
+{% endblock %}

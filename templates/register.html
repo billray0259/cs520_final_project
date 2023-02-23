@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Register - Climbing App{% endblock %}
+{% block title %}Register - {app_name}{% endblock %}
 
 {% block content %}
     <div class="row justify-content-center my-5">
@@ -26,10 +26,6 @@
                 <div class="mb-3">
                     <label for="last-name" class="form-label">Last Name</label>
                     <input type="text" class="form-control" id="last-name" name="last_name" required>
-                </div>
-                <div class="mb-3">
-                    <label for="birthdate" class="form-label">Birthdate</label>
-                    <input type="date" class="form-control" id="birthdate" name="birthdate" required>
                 </div>
                 <div class="form-check mb-3">
                     <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
