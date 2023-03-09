@@ -68,7 +68,7 @@
 
 ## GradeEstimate
 ### Properties
-* Grade: str
+* Grade: int
 * Route: Route_id
 * Climber: Climber_id
 * Time: datetime
@@ -209,3 +209,101 @@
 * Delete Gym
     * Delete gym button
 
+
+# File Structure
+
+```
+rater/
+    __init__.py
+    models/
+        __init__.py
+        climber.py
+        route.py
+        gym.py
+        attempt.py
+        grade_estimate.py
+        comment.py
+    routes/
+        __init__.py
+        climber.py
+        route.py
+        gym.py
+        attempt.py
+        grade_estimate.py
+        comment.py
+    templates/
+        base.html
+        climber/
+            register.html
+            profile.html
+            edit_profile.html
+        route/
+            create.html
+            read.html
+            edit.html
+        gym/
+            create.html
+            read.html
+            edit.html
+        error.html
+    static/
+        css/
+        js/
+    app.py
+```
+
+
+# Database Structure
+
+```javascript
+
+climber: {
+    _id: ObjectId,
+    display_name: str,
+    email: str,
+    username: str,
+    password_hash: str,
+    gyms: [ObjectId],
+    friends: [ObjectId]
+}
+
+route: {
+    _id: ObjectId,
+    color: str,
+    gym: ObjectId
+}
+
+gym: {
+    _id: ObjectId,
+    name: str,
+    address: str,
+    website: str,
+    owner: ObjectId,
+    admins: [ObjectId]
+}
+
+attempt: {
+    _id: ObjectId,
+    success: bool,
+    route: ObjectId,
+    climber: ObjectId,
+    time: datetime
+}
+
+grade_estimate: {
+    _id: ObjectId,
+    grade: int,
+    route: ObjectId,
+    climber: ObjectId,
+    time: datetime
+}
+
+comment: {
+    _id: ObjectId,
+    content: str,
+    route: ObjectId,
+    climber: ObjectId,
+    time: datetime
+}
+
+```
