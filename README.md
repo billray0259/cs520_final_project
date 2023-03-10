@@ -1,4 +1,22 @@
 # RouteRater
+
+
+## TODO
+
+./rater/views/route.py
+
+./rater/views/grade_estimate.py
+
+./rater/views/comment.py
+./rater/views/attempt.py
+./templates/gym/edit.html
+./templates/climber/profile.html
+./templates/climber/edit_profile.html
+./templates/route/read.html
+./templates/route/edit.html
+./templates/route/create.html
+
+
 This web app is designed to improve the accuracy of difficulty ratings for indoor climbing routes. Currently, the difficulty ratings are set by the route setters and can be arbitrary, leading to inconsistent and inaccurate ratings.
 
 The proposed solution is a web app that utilizes QR codes placed at the bottom of each route. Climbers can scan the QR code with their mobile device and be directed to a page where they can rate the route's difficulty and indicate if they were able to complete the route and how many attempts it took. The app will keep track of each climber's ratings and create a profile that reflects their climbing ability. This information will allow the app to provide a more accurate and data-driven difficulty rating for each route.

@@ -32,7 +32,7 @@ class Gym:
 
 
     def get_owner(self):
-        return Climber.find_by_id(self.owner)
+        return Climber.find_by_id(self.owner_id)
 
 
     def to_document(self):
