@@ -23,7 +23,6 @@ def register():
 
         # Log in new user and redirect to index page
         login_user(climber)
-        flash(f'Account created for {form.email.data}!')
         return redirect(url_for('index'))
 
     # Render sign-up page
@@ -34,7 +33,6 @@ def register():
 def login():
 
     # if climber is logged in redirect to index page
-    print("CURRENT_USER", current_user)
     if current_user.is_authenticated:
         return redirect(url_for('index'))
 
@@ -51,7 +49,6 @@ def login():
 
         # Log in user and redirect to index page
         login_user(climber)
-        flash(f'Logged in as {form.email.data}!')
         return redirect(url_for('index'))
 
     # Render login page

@@ -213,43 +213,50 @@
 # File Structure
 
 ```
-rater/
-    __init__.py
-    models/
-        __init__.py
-        climber.py
-        route.py
-        gym.py
-        attempt.py
-        grade_estimate.py
-        comment.py
-    views/
-        __init__.py
-        climber.py
-        route.py
-        gym.py
-        attempt.py
-        grade_estimate.py
-        comment.py
-    templates/
-        base.html
-        climber/
-            register.html
-            profile.html
-            edit_profile.html
-        route/
-            create.html
-            read.html
-            edit.html
-        gym/
-            create.html
-            read.html
-            edit.html
-        error.html
-    static/
-        css/
-        js/
-    app.py
+src
+├── app.py
+├── config.yaml
+├── rater
+│   ├── forms.py
+│   ├── __init__.py
+│   ├── models
+│   │   ├── attempt.py
+│   │   ├── climber.py
+│   │   ├── comment.py
+│   │   ├── grade_estimate.py
+│   │   ├── gym.py
+│   │   ├── __init__.py
+│   │   └── route.py
+│   └── views
+│       ├── attempt.py
+│       ├── climber.py
+│       ├── comment.py
+│       ├── grade_estimate.py
+│       ├── gym.py
+│       ├── __init__.py
+│       └── route.py
+├── static
+│   ├── css
+│   └── js
+└── templates
+    ├── base.html
+    ├── climber
+    │   ├── edit_profile.html
+    │   ├── login.html
+    │   ├── profile.html
+    │   └── register.html
+    ├── error.html
+    ├── _formhelpers.html
+    ├── gym
+    │   ├── create.html
+    │   ├── edit.html
+    │   └── read.html
+    ├── helpers
+    ├── index.html
+    └── route
+        ├── create.html
+        ├── edit.html
+        └── read.html
 ```
 
 
@@ -263,7 +270,10 @@ climber: {
     username: str,
     password_hash: str,
     gyms: [ObjectId],
-    friends: [ObjectId]
+    friends: [ObjectId],
+    permissions: {
+        create_gym: bool,
+    }
 }
 
 route: {

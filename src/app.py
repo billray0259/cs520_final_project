@@ -2,14 +2,14 @@ from flask import redirect, url_for
 from flask_login import LoginManager, current_user
 
 from rater import app
-from rater.models import Climber
-from rater.views import climber_bp
+from rater.models import Climber, Gym
+from rater.views import climber_bp, gym_bp
 
 
 # configure the login manager
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'login'
+login_manager.login_view = 'climber.login'
 
 # define the user loader function
 @login_manager.user_loader
@@ -19,6 +19,7 @@ def load_user(_id):
 
 # register the blueprints
 app.register_blueprint(climber_bp)
+app.register_blueprint(gym_bp)
 
 
 # define the index route

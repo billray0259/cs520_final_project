@@ -7,8 +7,8 @@ from bson.objectid import ObjectId
 db = app.config['MONGO']
 
 class Climber(UserMixin):
-    def __init__(self, email, username, id_=None, password_hash=None, gyms=None, friends=None):
-        self.id = id_ if id_ is not None else ObjectId()
+    def __init__(self, email, username, _id=None, password_hash=None, gyms=None, friends=None):
+        self.id = _id if _id is not None else ObjectId()
         self.email = email
         self.username = username
         self.password_hash = password_hash
@@ -78,10 +78,10 @@ class Climber(UserMixin):
         return Climber.from_document(climber_doc)
 
     @staticmethod
-    def find_by_id(id_):
-        if type(id_) is str:
-            id_ = ObjectId(id_)
-        climber_doc = db.climbers.find_one({'_id': id_})
+    def find_by_id(_id):
+        if type(_id) is str:
+            _id = ObjectId(_id)
+        climber_doc = db.climbers.find_one({'_id': _id})
         if climber_doc is None:
             return None
         return Climber.from_document(climber_doc)

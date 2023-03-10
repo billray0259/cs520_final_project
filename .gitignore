@@ -1,2 +1,5 @@
 .env/
 temp/
+prompts/
+# no python cache in any subdirectory
+__pycache__/

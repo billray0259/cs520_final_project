@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Email, EqualTo
-from rater.models.climber import Climber
+from wtforms.validators import DataRequired, Email, EqualTo, URL
+
 
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -15,3 +15,10 @@ class RegistrationForm(FlaskForm):
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
+
+
+class GymForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired()])
+    website = StringField('Website', validators=[DataRequired(), URL()])
+    owner_username = StringField('Owner Username', validators=[DataRequired()])
