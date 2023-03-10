@@ -68,7 +68,7 @@
 
 ## GradeEstimate
 ### Properties
-* Grade: str
+* Grade: int
 * Route: Route_id
 * Climber: Climber_id
 * Time: datetime
@@ -209,3 +209,110 @@
 * Delete Gym
     * Delete gym button
 
+
+# File Structure
+
+```
+src
+├── app.py
+├── config.yaml
+├── rater
+│   ├── forms.py
+│   ├── __init__.py
+│   ├── models
+│   │   ├── attempt.py
+│   │   ├── climber.py
+│   │   ├── comment.py
+│   │   ├── grade_estimate.py
+│   │   ├── gym.py
+│   │   ├── __init__.py
+│   │   └── route.py
+│   └── views
+│       ├── attempt.py
+│       ├── climber.py
+│       ├── comment.py
+│       ├── grade_estimate.py
+│       ├── gym.py
+│       ├── __init__.py
+│       └── route.py
+├── static
+│   ├── css
+│   └── js
+└── templates
+    ├── base.html
+    ├── climber
+    │   ├── edit_profile.html
+    │   ├── login.html
+    │   ├── profile.html
+    │   └── register.html
+    ├── error.html
+    ├── _formhelpers.html
+    ├── gym
+    │   ├── create.html
+    │   ├── edit.html
+    │   └── read.html
+    ├── helpers
+    ├── index.html
+    └── route
+        ├── create.html
+        ├── edit.html
+        └── read.html
+```
+
+
+# Database Structure
+
+```javascript
+
+climber: {
+    _id: ObjectId
+    email: str,
+    username: str,
+    password_hash: str,
+    gyms: [ObjectId],
+    friends: [ObjectId],
+    permissions: {
+        create_gym: bool,
+    }
+}
+
+route: {
+    _id: ObjectId,
+    color: str,
+    gym: ObjectId
+}
+
+gym: {
+    _id: ObjectId,
+    name: str,
+    address: str,
+    website: str,
+    owner: ObjectId,
+    admins: [ObjectId]
+}
+
+attempt: {
+    _id: ObjectId,
+    success: bool,
+    route: ObjectId,
+    climber: ObjectId,
+    time: datetime
+}
+
+grade_estimate: {
+    _id: ObjectId,
+    grade: int,
+    route: ObjectId,
+    climber: ObjectId,
+    time: datetime
+}
+
+comment: {
+    _id: ObjectId,
+    content: str,
+    route: ObjectId,
+    climber: ObjectId,
+    time: datetime
+}
+
+```
