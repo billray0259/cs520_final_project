@@ -1,0 +1,25 @@
+{% from "_formhelpers.html" import render_field, render_errors %}
+
+{% extends "base.html" %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h1 class="text-center mb-4">Log in</h1>
+      <form method="POST">
+        {{ form.csrf_token }}
+        {{ render_field(form.email) }}
+        {{ render_field(form.password) }}
+        {{ render_errors(errors) }}
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">Log in</button>
+        </div>
+      </form>
+      <p class="text-center">
+        Need an account? <a href="{{ url_for('climber.register') }}">Register</a>.
+      </p>
+    </div>
+  </div>
+{% endblock %}

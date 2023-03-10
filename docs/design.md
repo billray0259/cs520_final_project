@@ -223,7 +223,7 @@ rater/
         attempt.py
         grade_estimate.py
         comment.py
-    routes/
+    views/
         __init__.py
         climber.py
         route.py
@@ -258,8 +258,7 @@ rater/
 ```javascript
 
 climber: {
-    _id: ObjectId,
-    display_name: str,
+    _id: ObjectId
     email: str,
     username: str,
     password_hash: str,
