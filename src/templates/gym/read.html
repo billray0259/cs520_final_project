@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <!-- Search bar for gyms by name -->
+    <form class="form-inline mb-4" method="GET" action="{{ url_for('gym.read') }}">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search for a gym by name" aria-label="Search" name="name" value="{{ request.args.get('name', '') }}">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+    {% if gyms %}
+        {% for gym in gyms %}
+        <div class="card">
+            <div class="card-body">
+            <h5 class="card-title">{{ gym.name }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ gym.address }}</h6>
+            {% if current_user.is_authenticated %}
+                {% if current_user.is_favorite_gym(gym) %}
+                <a href="{{ url_for('gym.remove_favorite', gym_id=gym.id) }}" class="btn btn-warning">Remove from favorites</a>
+                {% else %}
+                <a href="{{ url_for('gym.add_favorite', gym_id=gym.id) }}" class="btn btn-outline-warning">Add to favorites</a>
+                {% endif %}
+                {% if current_user.id == gym.owner_id or current_user.id in gym.admins %}
+                <a href="{{ url_for('gym.edit', gym_id=gym.id) }}" class="btn btn-outline-primary">Edit gym</a>
+                {% endif %}
+            {% endif %}
+            <a href="{{ url_for('gym.show', gym_id=gym.id) }}" class="card-link">View gym details</a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+    <p>No gyms found.</p>
+    {% endif %}
+</div>
+
+{% endblock %}
