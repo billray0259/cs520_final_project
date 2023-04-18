@@ -27,7 +27,7 @@ app.register_blueprint(gym_bp)
 def index():
     if not current_user.is_authenticated:  # Check if user is not logged in
         print("User is not logged in")
-        return redirect(url_for('climber.register'))  # Redirect to sign-up page
+        return redirect(url_for('climber.login'))  # Redirect to sign-up page
     elif current_user.gym_id is None:  # Check if user is logged in but doesn't have a selected gym
         print("User is logged in but has not selected a gym")
         return redirect(url_for('gym.search'))  # Redirect to gym page

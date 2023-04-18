@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user
 from rater.forms import RegistrationForm, LoginForm
 from rater.models.climber import Climber
 
@@ -55,3 +55,10 @@ def login():
     return render_template('climber/login.html', form=form, current_user=current_user)
 
 
+@climber_bp.route('/logout')
+def logout():
+    # Log out the current user
+    logout_user()
+
+    # Redirect to the login page
+    return redirect(url_for('climber.login'))
