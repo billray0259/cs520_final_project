@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% from 'gym/_macros.html' import route_card %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ gym.name }}</h1>
+    <h2>{{ gym.address }}</h2>
+    <p>Website: <a href="{{ gym.website }}">{{ gym.website }}</a></p>
+    <p>Owner: {{ gym.get_owner().username }}</p>
+
+    {% if current_user.is_authenticated and (current_user.id == gym.owner_id or current_user.id in gym.admins) %}
+    <p><a href="{{ url_for('gym.edit', gym_id=gym.id) }}">Edit gym details</a></p>
+    {% endif %}
+
+    {% if routes %}
+    <h3>Routes:</h3>
+    <ul>
+        {% for route in routes %}
+        <li>{{ route_card(route, current_user) }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No routes found.</p>
+    {% endif %}
+
+    {% if current_user.is_authenticated and (current_user.id == gym.owner_id or current_user.id in gym.admins) %}
+    <h3>Add Route:</h3>
+    <form method="POST" action="{{ url_for('route.create') }}">
+        <div class="form-group">
+            <label for="color">Color:</label>
+            <input type="text" class="form-control" id="color" name="color" required>
+        </div>
+        <input type="hidden" name="gym_id" value="{{ gym.id }}">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

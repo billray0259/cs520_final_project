@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% from 'gym/_macros.html' import gym_card %}
+
+{% block content %}
+<div class="container">
+    <!-- Search bar for gyms by name and address -->
+    <form class="form-inline mb-4" method="GET" action="{{ url_for('gym.search') }}">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search for a gym by name" aria-label="Search" name="name" value="{{ request.args.get('name', '') }}">
+        <!-- <input class="form-control ml-sm-2" type="search" placeholder="Search for a gym by address" aria-label="Search" name="address" value="{{ request.args.get('address', '') }}"> -->
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+    {% if favorite_gyms %}
+        <h3>Favorited Gyms:</h3>
+        {% for gym in favorite_gyms %}
+            {{ gym_card(gym, current_user) }}
+        {% endfor %}
+    {% endif %}
+
+    {% if gyms %}
+        {% for gym in gyms %}
+            {% if gym not in favorite_gyms %}
+                {{ gym_card(gym, current_user) }}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+    <p>No gyms found.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

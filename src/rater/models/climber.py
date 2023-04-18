@@ -16,14 +16,18 @@ class Climber(UserMixin):
         self.friends = friends if friends is not None else []
         self.gym_id = None
 
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 
+
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-    
+
+
     def select_gym(self, gym_id):
         self.gym_id = gym_id
+
 
     def save(self):
         # Check for unique email and username
@@ -40,6 +44,7 @@ class Climber(UserMixin):
             'password_hash': self.password_hash,
         })
 
+
     def to_document(self):
         return {
             '_id': self.id,
@@ -49,7 +54,28 @@ class Climber(UserMixin):
             'gyms': self.gyms,
             'friends': self.friends,
         }
+
     
+    def get_favorite_gyms(self):
+        return [gym for gym in db.gyms.find({'_id': {'$in': self.gyms}})]
+
+
+    def is_favorite_gym(self, gym):
+        return gym.id in self.gyms
+
+
+    def add_favorite_gym(self, gym):
+        if not self.is_favorite_gym(gym):
+            self.gyms.append(gym.id)
+            db.climbers.update_one({'_id': self.id}, {'$push': {'gyms': gym.id}})
+
+
+    def remove_favorite_gym(self, gym):
+        if self.is_favorite_gym(gym):
+            self.gyms.remove(gym.id)
+            db.climbers.update_one({'_id': self.id}, {'$pull': {'gyms': gym.id}})
+
+
     @staticmethod
     def from_document(doc):
         gyms = doc['gyms'] if 'gyms' in doc else []
@@ -63,6 +89,7 @@ class Climber(UserMixin):
             friends,
         )
 
+
     @staticmethod
     def find_by_email(email):
         climber_doc = db.climbers.find_one({'email': email})
@@ -70,12 +97,14 @@ class Climber(UserMixin):
             return None
         return Climber.from_document(climber_doc)
 
+
     @staticmethod
     def find_by_username(username):
         climber_doc = db.climbers.find_one({'username': username})
         if climber_doc is None:
             return None
         return Climber.from_document(climber_doc)
+
 
     @staticmethod
     def find_by_id(_id):
@@ -86,16 +115,20 @@ class Climber(UserMixin):
             return None
         return Climber.from_document(climber_doc)
 
+
     def get_id(self):
         return str(self.id)
+
 
     @property
     def is_authenticated(self):
         return True
 
+
     @property
     def is_active(self):
         return True
+
 
     @property
     def is_anonymous(self):

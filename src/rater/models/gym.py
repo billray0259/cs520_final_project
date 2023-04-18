@@ -32,7 +32,7 @@ class Gym:
 
 
     def get_owner(self):
-        return Climber.find_by_id(self.owner)
+        return Climber.find_by_id(self.owner_id)
 
 
     def to_document(self):
@@ -74,3 +74,7 @@ class Gym:
         if gym_doc is None:
             return None
         return Gym.from_document(gym_doc)
+
+    @staticmethod
+    def find_all():
+        return [Gym.from_document(doc) for doc in db.gyms.find()]

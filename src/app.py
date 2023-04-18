@@ -2,7 +2,7 @@ from flask import redirect, url_for
 from flask_login import LoginManager, current_user
 
 from rater import app
-from rater.models import Climber, Gym
+from rater.models import Climber
 from rater.views import climber_bp, gym_bp
 
 
@@ -30,7 +30,7 @@ def index():
         return redirect(url_for('climber.register'))  # Redirect to sign-up page
     elif current_user.gym_id is None:  # Check if user is logged in but doesn't have a selected gym
         print("User is logged in but has not selected a gym")
-        return redirect(url_for('gym.read'))  # Redirect to gym page
+        return redirect(url_for('gym.search'))  # Redirect to gym page
     else:  # User is logged in and has a selected gym
         print("User is logged in and has selected a gym")
         return redirect(url_for('route.read'))  # Redirect to route page
