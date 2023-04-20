@@ -144,3 +144,8 @@ Python, Flask, and Flask-Login were chosen for their simplicity, readability, an
 
 
 <!-- Josh: Need to add refereneces of some sort -->
+### References
+AllTrails: Trail Guides & Maps for hiking, camping, and running. AllTrails.com. (2023). Retrieved April 19, 2023, from https://www.alltrails.com/ 
+The climber's app. KAYA. (2023). Retrieved April 19, 2023, from https://kayaclimb.com/ 
+Pebble climbing. Pebble Climbing. (2023). Retrieved April 19, 2023, from https://www.pebbleclimbing.com/ 
+Running, Cycling & Hiking App - Train, track & share. Strava. (2023). Retrieved April 19, 2023, from https://www.strava.com/ 
