@@ -1,0 +1,57 @@
+@startuml
+!define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+!define primary_key(x) <u>x</u>
+!define foreign_key(x) #x#
+
+Table(Climber, "Climber") {
+  primary_key(id)
+  name
+  email
+  password
+}
+
+Table(Gym, "Gym") {
+  primary_key(id)
+  name
+  address
+  foreign_key(owner_id)
+}
+
+Table(Route, "Route") {
+  primary_key(id)
+  name
+  foreign_key(gym_id)
+  difficulty
+  qr_code
+}
+
+Table(Comment, "Comment") {
+  primary_key(id)
+  foreign_key(climber_id)
+  foreign_key(route_id)
+  content
+  timestamp
+}
+
+Table(Attempt, "Attempt") {
+  primary_key(id)
+  foreign_key(climber_id)
+  foreign_key(route_id)
+  date
+}
+
+Table(Admin, "Admin") {
+  primary_key(id)
+  foreign_key(climber_id)
+  foreign_key(gym_id)
+}
+
+Climber "1" -- "0..*" Gym : "owner"
+Climber "0..*" -- "0..*" Admin
+Admin "0..*" -- "0..*" Gym
+Climber "0..*" -- "0..*" Attempt
+Climber "1" -- "0..*" Comment
+Gym "1" -- "0..*" Route
+Route "1" -- "0..*" Comment
+Route "1" -- "0..*" Attempt
+@enduml
