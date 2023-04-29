@@ -1,9 +1,8 @@
-```python
-# TODO references
-```
-
 # Route Rater Climbing App
 William Ray, Josh Viktrov, Andrew Xie, Roshan Praveen Shetty
+
+## [Presentation Video](https://www.youtube.com/watch?v=FiJF8wc8aFU)
+## [GitHub Repository](https://github.com/billray0259/cs520_final_project)
 
 # Software Requirements Specifications (SRS)
 ## Overview
@@ -73,17 +72,14 @@ To use the app, simply scan the QR code at the bottom of the climbing route and 
 The app follows a modular architecture with frontend, backend, and database components. Frontend displays the UI and communicates with the backend through API calls using HTML, CSS, JavaScript, Bootstrap, and Jinja2 templates. Backend processes requests and interacts with the MongoDB database using Python, Flask, and Flask-Login. Data is returned to the frontend, updating the UI.
 
 ## Tech Stack
-* Frontend: HTML, CSS, JavaScript, Bootstrap, Jinja2
-* Backend: Python, Flask, Flask-Login
-* Database: MongoDB, PyMongo
+* Frontend: HTML, CSS, JavaScript, [Bootstrap](https://getbootstrap.com/), [Jinja2](https://jinja.palletsprojects.com/en/3.1.x/)
+* Backend: Python, [Flask](https://flask.palletsprojects.com/en/2.2.x/), [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
+* Database: [MongoDB](https://www.mongodb.com/), [PyMongo](https://pymongo.readthedocs.io/en/stable/)
 * Other libraries: YAML, QR code generation library
 
 # Tech Stack Justification
 Python, Flask, and Flask-Login were chosen for their simplicity, readability, and ease of use. MongoDB and PyMongo provide flexibility and performance in handling diverse data types. Bootstrap and Jinja2 ensure a responsive and visually appealing user interface.  <!-- Josh: Since we don't anticipate the app being heavily dynamic we decided no frontend framework is necessary and vanilla javascript will satisfy our requirements while keeping the app lightweight. --> YAML manages configuration settings, and QR code generation enables core app functionality. 
 
-```python
-# TODO UI design mockup and data model
-```
 
 ## Evaluation Plan
 
@@ -144,3 +140,22 @@ Python, Flask, and Flask-Login were chosen for their simplicity, readability, an
 
 
 <!-- Josh: Need to add refereneces of some sort -->
+<<<<<<< HEAD:midpoint-report.md
+=======
+### References
+AllTrails: Trail Guides & Maps for hiking, camping, and running. AllTrails.com. (2023). Retrieved April 19, 2023, from https://www.alltrails.com/ 
+The climber's app. KAYA. (2023). Retrieved April 19, 2023, from https://kayaclimb.com/ 
+Pebble climbing. Pebble Climbing. (2023). Retrieved April 19, 2023, from https://www.pebbleclimbing.com/ 
+Running, Cycling & Hiking App - Train, track & share. Strava. (2023). Retrieved April 19, 2023, from https://www.strava.com/ 
+
+
+# Appendix
+
+![climber pages](mock-ups/climber_pages.png)
+
+![gym pages](mock-ups/gym_pages.png)
+
+![route pages](mock-ups/route_pages.png)
+
+![data model](data_model/route-rater-ERD.png)
+>>>>>>> 4edea28de3ffc73f29308f7e3ea77f18245c0974:docs/midpoint-report.md
