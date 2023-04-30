@@ -5,14 +5,22 @@
 {% block content %}
 
 <div class="container">
+
     {{ profile_card(current_user) }}
 
     <div class="profile_gyms">
-        <p>Your Gyms</p>
+        <h1>Your Gyms</h1>
         {% for gym in current_user.get_favorite_gyms() %}
             {{ gym_card(gym) }}
         {% endfor %}
+        <button type="button" class="btn btn-primary">Find Gyms</button>
     </div>
+
+    <div class="friends">
+        <h1>Friends</h1>
+        {{ current_user.friends }}
+    </div>
+
 </div>
 
 {% endblock %}
