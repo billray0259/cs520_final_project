@@ -1,0 +1,20 @@
+{% macro profile_card(current_user) %}
+
+<div class="profile_card bg-light">
+    <img src="/static/defaultuser.png">
+    <p class="username">{{ current_user.username }}</p>
+    <button type="button" class="btn btn-warning">Edit Profile</button>
+</div>
+
+{% endmacro %}
+
+{% macro gym_card(gym) %}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ gym.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ gym.address }}</h6>
+    </div>
+</div>
+
+{% endmacro %}

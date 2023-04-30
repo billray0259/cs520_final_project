@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% from 'climber/_macros.html' import profile_card, gym_card %}
+
+{% block content %}
+
+<div class="container">
+    {{ profile_card(current_user) }}
+
+    <div class="profile_gyms">
+        <p>Your Gyms</p>
+        {% for gym in current_user.get_favorite_gyms() %}
+            {{ gym_card(gym) }}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

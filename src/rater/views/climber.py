@@ -62,3 +62,7 @@ def logout():
 
     # Redirect to the login page
     return redirect(url_for('climber.login'))
+
+@climber_bp.route('/profile')
+def profile():
+    return render_template('climber/profile.html', current_user=current_user)

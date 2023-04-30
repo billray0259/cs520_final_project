@@ -1,0 +1,18 @@
+.profile_card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: 1px solid gray;
+    padding: 25px;
+}
+
+.profile_card img {
+    width: 200px;
+    height: 200px;
+}
+
+.profile_card p.username {
+    font-size: 30px;
+}
