@@ -18,3 +18,28 @@
 </div>
 
 {% endmacro %}
+
+{% macro user_card(current_user, user) %}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ user.username }}</h5>
+        {% if current_user.is_friend(user) %}
+            <a href="{{ url_for('climber.remove_friend', user_id=user.id) }}" class="btn btn-danger">Remove Friend</a>
+        {% else %}
+            <a href="{{ url_for('climber.add_friend', user_id=user.id) }}" class="btn btn-success">Add Friend</a>
+        {% endif%}
+    </div>
+</div>
+
+{% endmacro %}
+
+{% macro friend_card(friend) %}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ friend.username }}</h5>
+    </div>
+</div>
+
+{% endmacro %}
