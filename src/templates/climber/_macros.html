@@ -3,7 +3,7 @@
 <div class="profile_card bg-light">
     <img src="/static/defaultuser.png">
     <p class="username">{{ current_user.username }}'s Profile</p>
-    <button type="button" class="btn btn-warning">Edit Profile</button>
+    <a href="{{ url_for('climber.edit_profile') }}"><button type="button" class="btn btn-warning">Edit Profile</button></a>
 </div>
 
 {% endmacro %}

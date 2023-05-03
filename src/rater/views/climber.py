@@ -67,6 +67,11 @@ def logout():
 def profile():
     return render_template('climber/profile.html', current_user=current_user)
 
+@climber_bp.route('/profile/edit')
+@login_required
+def edit_profile():
+    return render_template('climber/edit_profile.html')
+
 @climber_bp.route('/profile/friends')
 def friends():
     name = request.args.get('name', None)
