@@ -23,7 +23,7 @@
 {% macro route_card(route, current_user) %}
 <div class="card">
     <div class="card-body">
-        <h5 class="card-title">{{ route.color }} {{ route.grade }}</h5>
+        <!-- <h5 class="card-title">{{ route.color }} {{ route.grade }}</h5>
         <p class="card-text">{{ route.description }}</p>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">Number of attempts: {{ route.num_attempts }}</li>
@@ -32,7 +32,11 @@
         {% if current_user.is_authenticated %}
         <a href="{{ url_for('attempt.create', route_id=route.id) }}" class="btn btn-primary">Log an attempt</a>
         <a href="{{ url_for('comment.create', route_id=route.id) }}" class="btn btn-primary">Add a comment</a>
-        {% endif %}
+        {% endif %} -->
+        <!-- title: route.name -->
+        <!-- text: route.color -->
+        <h5 class="card-title">{{ route.name }}</h5>
+        <p class="card-text">{{ route.color }}</p>
     </div>
 </div>
 {% endmacro %}

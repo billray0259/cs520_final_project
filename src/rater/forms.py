@@ -22,3 +22,9 @@ class GymForm(FlaskForm):
     address = StringField('Address', validators=[DataRequired()])
     website = StringField('Website', validators=[DataRequired(), URL()])
     owner_username = StringField('Owner Username', validators=[DataRequired()])
+
+
+class RouteForm(FlaskForm):
+    name = StringField('Name', validators=[DataRequired()])
+    color = StringField('Color', validators=[DataRequired()])
+    gym_id = StringField('Gym ID', validators=[DataRequired()])
