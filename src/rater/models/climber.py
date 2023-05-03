@@ -2,7 +2,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from rater import app
 from flask_login import UserMixin
 from bson.objectid import ObjectId
-
+import re
 
 db = app.config['MONGO']
 
@@ -75,6 +75,22 @@ class Climber(UserMixin):
             self.gyms.remove(gym.id)
             db.climbers.update_one({'_id': self.id}, {'$pull': {'gyms': gym.id}})
 
+    def get_friends(self):
+        return [f for f in db.climbers.find({'_id': {'$in': self.friends}})]
+
+    
+    def is_friend(self, user):
+        return user.id in self.friends
+
+    def add_friend(self, friend):
+        if not self.is_friend(friend):
+            self.friends.append(friend.id)
+            db.climbers.update_one({'_id': self.id}, {'$push': {'friends': friend.id}})
+
+    def remove_friend(self, friend):
+        if self.is_friend(friend):
+            self.friends.remove(friend.id)
+            db.climbers.update_one({'_id': self.id}, {'$pull': {'friends': friend.id}})
 
     def get_attempts_for_route(self, route_id):
         return [attempt for attempt in db.attempts.find({'route_id': route_id, 'climber_id': self.id})]
@@ -108,7 +124,12 @@ class Climber(UserMixin):
         if climber_doc is None:
             return None
         return Climber.from_document(climber_doc)
-
+    
+    @staticmethod
+    def find_many_by_username(username):
+        regex = f".*{re.escape(username)}.*"  # Escape special characters in username
+        climbers = db.climbers.find({'username': {'$regex': regex, '$options': 'i'}})
+        return [Climber.from_document(climber) for climber in climbers]
 
     @staticmethod
     def find_by_id(_id):

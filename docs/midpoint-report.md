@@ -140,6 +140,8 @@ Python, Flask, and Flask-Login were chosen for their simplicity, readability, an
 
 
 <!-- Josh: Need to add refereneces of some sort -->
+<<<<<<< HEAD:midpoint-report.md
+=======
 ### References
 AllTrails: Trail Guides & Maps for hiking, camping, and running. AllTrails.com. (2023). Retrieved April 19, 2023, from https://www.alltrails.com/ 
 The climber's app. KAYA. (2023). Retrieved April 19, 2023, from https://kayaclimb.com/ 
@@ -156,3 +158,4 @@ Running, Cycling & Hiking App - Train, track & share. Strava. (2023). Retrieved 
 ![route pages](mock-ups/route_pages.png)
 
 ![data model](data_model/route-rater-ERD.png)
+>>>>>>> 4edea28de3ffc73f29308f7e3ea77f18245c0974:docs/midpoint-report.md

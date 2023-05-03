@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
-from flask_login import login_user, current_user, logout_user
+from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask_login import login_user, current_user, logout_user, login_required
 from rater.forms import RegistrationForm, LoginForm
 from rater.models.climber import Climber
 
@@ -62,3 +62,44 @@ def logout():
 
     # Redirect to the login page
     return redirect(url_for('climber.login'))
+
+@climber_bp.route('/profile')
+def profile():
+    return render_template('climber/profile.html', current_user=current_user)
+
+@climber_bp.route('/profile/friends')
+def friends():
+    name = request.args.get('name', None)
+
+    climbers = []
+    if name:
+        climbers = Climber.find_many_by_username(name)
+
+    return render_template('climber/friends.html', current_user=current_user, climbers=climbers)
+
+@climber_bp.route('/profile/add_friend/<user_id>', methods=['GET'])
+@login_required
+def add_friend(user_id):
+    # Retrieve the gym
+    user = Climber.find_by_id(user_id)
+    if not user or current_user.is_friend(user):
+        return redirect(url_for('climber.friends'))
+
+    current_user.add_friend(user)
+
+    # Redirect back to the gym's page
+    flash(f'Added {user.username} to your favorites.')
+    return redirect(url_for('climber.friends', current_user=current_user, climbers=[]))
+
+@climber_bp.route('/profile/remove_friend/<user_id>', methods=['GET'])
+@login_required
+def remove_friend(user_id):
+    user = Climber.find_by_id(user_id)
+    if not user or not current_user.is_friend(user):
+        return redirect(url_for('climber.friends'))
+
+    current_user.remove_friend(user)
+
+    flash(f'Removed {user.username} to your favorites.')
+    return redirect(url_for('climber.friends', current_user=current_user, climbers=[]))
+

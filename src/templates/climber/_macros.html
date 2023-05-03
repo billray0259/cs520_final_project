@@ -1,0 +1,45 @@
+{% macro profile_card(current_user) %}
+
+<div class="profile_card bg-light">
+    <img src="/static/defaultuser.png">
+    <p class="username">{{ current_user.username }}'s Profile</p>
+    <button type="button" class="btn btn-warning">Edit Profile</button>
+</div>
+
+{% endmacro %}
+
+{% macro gym_card(gym) %}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ gym.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{ gym.address }}</h6>
+    </div>
+</div>
+
+{% endmacro %}
+
+{% macro user_card(current_user, user) %}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ user.username }}</h5>
+        {% if current_user.is_friend(user) %}
+            <a href="{{ url_for('climber.remove_friend', user_id=user.id) }}" class="btn btn-danger">Remove Friend</a>
+        {% else %}
+            <a href="{{ url_for('climber.add_friend', user_id=user.id) }}" class="btn btn-success">Add Friend</a>
+        {% endif%}
+    </div>
+</div>
+
+{% endmacro %}
+
+{% macro friend_card(friend) %}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">{{ friend.username }}</h5>
+    </div>
+</div>
+
+{% endmacro %}

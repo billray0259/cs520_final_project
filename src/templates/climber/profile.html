@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% import 'climber/_macros.html' as macros %}
+
+{% block content %}
+
+<div class="container">
+
+    {{ macros.profile_card(current_user) }}
+
+    <div class="profile_gyms">
+        <h1>Your Gyms</h1>
+        {% for gym in current_user.get_favorite_gyms() %}
+            {{ macros.gym_card(gym) }}
+        {% endfor %}
+        <button type="button" class="btn btn-primary">Find Gyms</button>
+    </div>
+
+    <div class="friends">
+        <h1>Friends</h1>
+        {% for friend in current_user.get_friends() %}
+            {{ macros.friend_card(friend) }}
+        {% endfor %}
+        <a href="/profile/friends"><button type="button" class="btn btn-primary">Add Friend</button></a>
+    </div>
+
+</div>
+
+{% endblock %}
