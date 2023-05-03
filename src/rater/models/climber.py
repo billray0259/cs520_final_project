@@ -92,6 +92,10 @@ class Climber(UserMixin):
             self.friends.remove(friend.id)
             db.climbers.update_one({'_id': self.id}, {'$pull': {'friends': friend.id}})
 
+    def get_attempts_for_route(self, route_id):
+        return [attempt for attempt in db.attempts.find({'route_id': route_id, 'climber_id': self.id})]
+
+
     @staticmethod
     def from_document(doc):
         gyms = doc['gyms'] if 'gyms' in doc else []

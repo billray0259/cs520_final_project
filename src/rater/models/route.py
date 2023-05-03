@@ -55,7 +55,7 @@ class Route:
 
     @staticmethod
     def find_by_gym_id(gym_id):
-        routes_doc = db.routes.find({'gym': gym_id})
+        routes_doc = db.routes.find({'gym': ObjectId(gym_id)})
         if routes_doc is None:
             return []
         return [Route.from_document(doc) for doc in routes_doc]

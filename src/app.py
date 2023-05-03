@@ -3,7 +3,7 @@ from flask_login import LoginManager, current_user
 
 from rater import app
 from rater.models import Climber
-from rater.views import climber_bp, gym_bp
+from rater.views import climber_bp, gym_bp, route_bp
 
 
 # configure the login manager
@@ -20,7 +20,7 @@ def load_user(_id):
 # register the blueprints
 app.register_blueprint(climber_bp)
 app.register_blueprint(gym_bp)
-
+app.register_blueprint(route_bp)
 
 # define the index route
 @app.route('/')
