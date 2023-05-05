@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% from 'gym/_macros.html' import route_card %}
+
+{% block content %}
+<div class="container">
+    <h1>{{ route.name }}</h1>
+    <h2>{{ route.color }}</h2>
+    <h3>{{ route.gym_id }}</h3>
+
+
+    {% if current_user.is_authenticated %}
+    
+        <a href="{{ url_for('climber.add_attempt', route_id=route.id) }}">Add Attempt</a>
+
+        <div class="attempts">
+
+            {% for att in climber_attempts %}
+                <div class="att bg-light">
+                    <h5 class="completed">Completed: {{ att.success }}</h5>
+                    <h5 class="date">Date: {{ att.time }}</h5>
+                </div>
+            {% endfor %}
+
+
+        </div>
+
+
+    {% endif %}
+
+</div>
+{% endblock %}

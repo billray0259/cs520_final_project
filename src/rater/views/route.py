@@ -41,4 +41,6 @@ def view(route_id):
 
     climber_attempts = current_user.get_attempts_for_route(route.id)
 
-    return render_template('route/view.html', route=route, current_user=current_user, climber_attempts=climber_attempts)
+    print(climber_attempts)
+
+    return render_template('route/read.html', route=route, current_user=current_user, climber_attempts=climber_attempts)

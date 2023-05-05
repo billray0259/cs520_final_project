@@ -15,11 +15,9 @@
 
     {% if routes %}
     <h3>Routes:</h3>
-    <ul>
-        {% for route in routes %}
-        <li>{{ route_card(route, current_user) }}</li>
-        {% endfor %}
-    </ul>
+    {% for route in routes %}
+        {{ route_card(route, current_user) }}
+    {% endfor %}
     {% else %}
     <p>No routes found.</p>
     {% endif %}

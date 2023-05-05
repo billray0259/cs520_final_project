@@ -95,6 +95,39 @@ class Climber(UserMixin):
     def get_attempts_for_route(self, route_id):
         return [attempt for attempt in db.attempts.find({'route_id': route_id, 'climber_id': self.id})]
 
+    def get_all_attempts(self):
+
+        pipeline = [
+            {
+                '$match': {
+                    'climber_id': self.id
+                }
+            },
+            {
+                '$lookup': {
+                    'from': 'routes',
+                    'localField': 'route_id',
+                    'foreignField': '_id',
+                    'as': 'route'
+                }
+            },
+            {
+                '$unwind': {
+                    'path': '$route'
+                }
+            },
+            {
+                '$project': {
+                    '_id': 0,
+                    'success': 1,
+                    'time': 1,
+                    'route.name': 1,
+                    'route.color': 1
+                }
+            }
+        ]
+        
+        return [attempt for attempt in db.attempts.aggregate(pipeline)]
 
     @staticmethod
     def from_document(doc):

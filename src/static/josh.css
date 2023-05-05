@@ -38,3 +38,17 @@
 .friends button {
     margin-top: 10px;
 }
+
+.attempts {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.attempts .attempt {
+    margin-top: 10px;
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}

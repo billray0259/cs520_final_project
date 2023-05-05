@@ -2,6 +2,9 @@ from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
 from rater.forms import RegistrationForm, LoginForm
 from rater.models.climber import Climber
+from rater.models.route import Route
+from rater.models.attempt import Attempt
+
 
 climber_bp = Blueprint('climber', __name__)
 
@@ -65,7 +68,8 @@ def logout():
 
 @climber_bp.route('/profile')
 def profile():
-    return render_template('climber/profile.html', current_user=current_user)
+    attempts = current_user.get_all_attempts()
+    return render_template('climber/profile.html', current_user=current_user, attempts=attempts)
 
 @climber_bp.route('/profile/edit')
 @login_required
@@ -108,3 +112,19 @@ def remove_friend(user_id):
     flash(f'Removed {user.username} to your favorites.')
     return redirect(url_for('climber.friends', current_user=current_user, climbers=[]))
 
+@climber_bp.route('/route/add/<route_id>', methods=["GET"])
+@login_required
+def add_attempt(route_id):
+    route = Route.find_by_id(route_id)
+    attempt = Attempt(success=True, route_id=route.id, climber_id=current_user.id)
+
+    # Save to database
+    try:
+        attempt.save()
+    except ValueError as e:
+        errors = [str(e)]
+        return render_template('route.view', route_id=route_id, errors=errors)
+
+    
+    flash(f'Added attempt for {route.name}.')
+    return redirect(url_for('route.view', route_id=route_id))

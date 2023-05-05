@@ -24,6 +24,17 @@
         <a href="/profile/friends"><button type="button" class="btn btn-primary">Add Friend</button></a>
     </div>
 
+    <div class="attempts">
+        <h1>Attempts</h1>
+        {% for att in attempts %}
+        <div class="attempt bg-light">
+            <h2>{{ att.route.name }}</h2>
+            <h4>Completed: {{ att.success }}</h4>
+            <h4>Date: {{ att.time }}</h4>
+        </div>
+        {% endfor %}
+    </div>
+
 </div>
 
 {% endblock %}

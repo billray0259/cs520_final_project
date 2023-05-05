@@ -5,7 +5,6 @@ from rater.models import Climber, Route
 
 db = app.config['MONGO']
 
-
 class Attempt:
     def __init__(self, success, route_id, climber_id, time=None, _id=None):
         self.id = _id if _id is not None else ObjectId()
@@ -19,7 +18,7 @@ class Attempt:
         # make sure an attempt with the same climber and time doesn't already exist
         if db.attempts.find_one({'climber_id': self.climber_id, 'route_id': self.route_id, 'time': self.time}):
             raise ValueError(f'Attempt already exists for climber {self.climber_id} on route {self.route_id} at time {self.time}')
-        
+
         # add the attempt to the database
         return db.attempts.insert_one(self.to_document())
         
