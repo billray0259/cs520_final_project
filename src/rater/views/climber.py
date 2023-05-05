@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
-from rater.forms import RegistrationForm, LoginForm
+from rater.forms import RegistrationForm, LoginForm, AttemptForm
 from rater.models.climber import Climber
 from rater.models.route import Route
 from rater.models.attempt import Attempt
@@ -112,19 +112,21 @@ def remove_friend(user_id):
     flash(f'Removed {user.username} to your favorites.')
     return redirect(url_for('climber.friends', current_user=current_user, climbers=[]))
 
-@climber_bp.route('/route/add/<route_id>', methods=["GET"])
+@climber_bp.route('/route/add/<route_id>', methods=["GET", "POST"])
 @login_required
 def add_attempt(route_id):
+    form = AttemptForm()
     route = Route.find_by_id(route_id)
-    attempt = Attempt(success=True, route_id=route.id, climber_id=current_user.id)
 
-    # Save to database
-    try:
-        attempt.save()
-    except ValueError as e:
-        errors = [str(e)]
-        return render_template('route.view', route_id=route_id, errors=errors)
+    if form.validate_on_submit():
+        try:
+            attempt = Attempt(route_id=route.id, climber_id=current_user.id, success=form.success.data, grade=form.grade.data)
+            attempt.save()
+        except ValueError as e:
+            errors = [str(e)]
+            return render_template('route.view', route_id=route_id, errors=errors)
+        
+        flash(f'Added attempt for {route.name}.')
+        return redirect(url_for('route.view', route_id=route_id))
 
-    
-    flash(f'Added attempt for {route.name}.')
-    return redirect(url_for('route.view', route_id=route_id))
+    return render_template('route/add_attempt.html', route=route, form=form)

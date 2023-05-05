@@ -1,0 +1,26 @@
+{% from "_formhelpers.html" import render_field, render_errors %}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+    Add Attempt for {{ route.name }}
+
+    <form method="POST">
+        {{ form.csrf_token }}
+
+        {{ render_field(form.success) }}
+
+        {{ render_field(form.grade) }}
+
+        {{ render_errors(errors) }}
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Add Attempt</button>
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}

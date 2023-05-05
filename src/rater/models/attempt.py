@@ -6,14 +6,14 @@ from rater.models import Climber, Route
 db = app.config['MONGO']
 
 class Attempt:
-    def __init__(self, success, route_id, climber_id, time=None, _id=None):
+    def __init__(self, success, route_id, climber_id, grade, time=None, _id=None):
         self.id = _id if _id is not None else ObjectId()
         self.success = success
         self.route_id = route_id
         self.climber_id = climber_id
+        self.grade = grade
         self.time = time if time is not None else datetime.utcnow()
-
-
+        
     def save(self):
         # make sure an attempt with the same climber and time doesn't already exist
         if db.attempts.find_one({'climber_id': self.climber_id, 'route_id': self.route_id, 'time': self.time}):
@@ -30,6 +30,7 @@ class Attempt:
             'route_id': self.route_id,
             'climber_id': self.climber_id,
             'time': self.time,
+            'grade': self.grade
         }
 
 

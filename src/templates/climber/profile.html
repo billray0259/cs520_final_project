@@ -26,11 +26,13 @@
 
     <div class="attempts">
         <h1>Attempts</h1>
+
         {% for att in attempts %}
         <div class="attempt bg-light">
-            <h2>{{ att.route.name }}</h2>
+            <h4>{{ att.route.name }}</h4>
             <h4>Completed: {{ att.success }}</h4>
             <h4>Date: {{ att.time }}</h4>
+            <h4>Grade: {{ att.grade }}</h4>
         </div>
         {% endfor %}
     </div>

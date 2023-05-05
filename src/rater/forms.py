@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Email, EqualTo, URL
+from wtforms import StringField, PasswordField, BooleanField, IntegerField
+from wtforms.validators import DataRequired, Email, EqualTo, URL, NumberRange
 
 
 class RegistrationForm(FlaskForm):
@@ -28,3 +28,8 @@ class RouteForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     color = StringField('Color', validators=[DataRequired()])
     gym_id = StringField('Gym ID', validators=[DataRequired()])
+
+
+class AttemptForm(FlaskForm):
+    success = BooleanField('Completed')
+    grade = IntegerField('Grade', validators=[DataRequired(), NumberRange(0,10)])

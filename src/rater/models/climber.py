@@ -115,15 +115,6 @@ class Climber(UserMixin):
                 '$unwind': {
                     'path': '$route'
                 }
-            },
-            {
-                '$project': {
-                    '_id': 0,
-                    'success': 1,
-                    'time': 1,
-                    'route.name': 1,
-                    'route.color': 1
-                }
             }
         ]
         
