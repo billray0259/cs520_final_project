@@ -40,7 +40,6 @@ def view(route_id):
         return redirect(url_for('main.index'))
 
     climber_attempts = current_user.get_attempts_for_route(route.id)
+    estimate = route.get_grade_estimate()
 
-    print(climber_attempts)
-
-    return render_template('route/read.html', route=route, current_user=current_user, climber_attempts=climber_attempts)
+    return render_template('route/read.html', route=route, current_user=current_user, climber_attempts=climber_attempts, estimate=estimate)

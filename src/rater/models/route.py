@@ -80,3 +80,15 @@ class Route:
 
     def get_num_grade_estimates(self):
         return db.grade_estimates.find({'route': self.id}).count()
+
+    def get_grade_estimate(self):
+        attempts =  list(db.attempts.find({'route_id': self.id, 'grade': {"$exists": True}}, {"grade":1, "_id":0}))
+        attempts = list(map(lambda x: x["grade"], attempts))
+        
+        total = 0
+        for a in attempts:
+            total += a
+        
+        avg = total / len(attempts)
+
+        return avg
