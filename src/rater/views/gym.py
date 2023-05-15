@@ -95,7 +95,7 @@ def edit(gym_id):
         return redirect(url_for('gym.search'))
 
     # Check if the current user is an admin of the gym
-    if not gym.is_admin(current_user.id):
+    if not gym.get_owner().id == current_user.id:
         flash('You are not authorized to edit this gym.')
         return redirect(url_for('gym.show', gym_id=gym_id))
 
