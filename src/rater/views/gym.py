@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
 from rater.forms import GymForm
-from rater.models import Gym, Route
+from rater.models import Gym, Route, Climber
 
 gym_bp = Blueprint('gym', __name__)
 
@@ -103,14 +103,22 @@ def edit(gym_id):
     form = GymForm(obj=gym)
 
     if form.validate_on_submit():
+        owner_username = form.owner_username.data
+        owner = Climber.find_by_username(owner_username)
+
+        if owner is None:
+            flash('Owner not found!')
+            return render_template('gym/edit.html', form=form, gym=gym, current_user=current_user)
+
         # Update the gym
         gym.name = form.name.data
         gym.address = form.address.data
         gym.website = form.website.data
-        gym.owner_id = form.owner_username.data
+        gym.owner_id = owner.id
+        gym.image_uri = form.image_uri.data
 
-        # Save the gym to the database
-        gym.save()
+        # Update the gym to in the database
+        gym.update()
 
         # Redirect to the gym's page
         flash('Gym updated successfully.')
