@@ -94,3 +94,7 @@ class Gym:
     @staticmethod
     def find_all():
         return [Gym.from_document(doc) for doc in db.gyms.find()]
+
+    @staticmethod
+    def get_favorite_gyms(climber):
+        return [Gym.from_document(gym) for gym in db.gyms.find({'_id': {'$in': climber.gyms}})]

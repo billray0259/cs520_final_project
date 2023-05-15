@@ -49,8 +49,16 @@ def search():
     else:
         gyms = Gym.find_all()
 
-    # Render gyms page
-    return render_template('gym/search.html', gyms=gyms, current_user=current_user)
+    favorite_gyms = Gym.get_favorite_gyms(current_user)
+    favorite_ids = set([gym.id for gym in favorite_gyms])
+
+    gyms = [
+        gym
+        for gym in gyms
+        if gym.id not in favorite_ids
+    ]
+
+    return render_template('gym/search.html', gyms=gyms, current_user=current_user, favorite_gyms=favorite_gyms)
 
 
 @gym_bp.route('/gym/remove_favorite/<gym_id>', methods=['GET'])
@@ -62,11 +70,11 @@ def remove_favorite(gym_id):
         return redirect(url_for('gym.search'))
 
     # Remove the gym from the current user's favorites
-    current_user.remove_favorite_gym(gym_id)
+    current_user.remove_favorite_gym(gym)
 
     # Redirect back to the gym's page
     flash(f'Removed {gym.name} from your favorites.')
-    return redirect(url_for('gym.show', gym_id=gym_id))
+    return redirect(url_for('gym.search'))
 
 # gym.add_favorite route
 @gym_bp.route('/gym/add_favorite/<gym_id>', methods=['GET'])
@@ -82,7 +90,7 @@ def add_favorite(gym_id):
 
     # Redirect back to the gym's page
     flash(f'Added {gym.name} to your favorites.')
-    return redirect(url_for('gym.show', gym_id=gym_id))
+    return redirect(url_for('gym.search'))
 
 
 # gym.edit route
@@ -91,16 +99,18 @@ def add_favorite(gym_id):
 def edit(gym_id):
     # Retrieve the gym
     gym = Gym.find_by_id(gym_id)
+    owner = gym.get_owner()
     if not gym:
         return redirect(url_for('gym.search'))
 
     # Check if the current user is an admin of the gym
-    if not gym.get_owner().id == current_user.id:
+    if not owner.id == current_user.id:
         flash('You are not authorized to edit this gym.')
-        return redirect(url_for('gym.show', gym_id=gym_id))
+        return redirect(url_for('gym.show', gym_id=gym.id))
 
     # Create the form
     form = GymForm(obj=gym)
+    form.owner_username.data = owner.username
 
     if form.validate_on_submit():
         owner_username = form.owner_username.data
@@ -122,7 +132,7 @@ def edit(gym_id):
 
         # Redirect to the gym's page
         flash('Gym updated successfully.')
-        return redirect(url_for('gym.show', gym_id=gym_id))
+        return redirect(url_for('gym.search'))
 
     # Render the edit page
     return render_template('gym/edit.html', form=form, gym=gym, current_user=current_user)

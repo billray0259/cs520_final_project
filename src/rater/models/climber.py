@@ -56,9 +56,7 @@ class Climber(UserMixin):
         }
 
     
-    def get_favorite_gyms(self):
-        return [gym for gym in db.gyms.find({'_id': {'$in': self.gyms}})]
-
+    
 
     def is_favorite_gym(self, gym):
         return gym.id in self.gyms
