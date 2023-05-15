@@ -36,7 +36,7 @@ def register():
 def login():
 
     # if climber is logged in redirect to index page
-    if not current_user.is_authenticated:
+    if current_user.is_authenticated:
         return redirect(url_for('index'))
 
     form = LoginForm()
