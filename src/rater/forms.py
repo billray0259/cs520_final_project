@@ -20,8 +20,9 @@ class LoginForm(FlaskForm):
 class GymForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     address = StringField('Address', validators=[DataRequired()])
-    website = StringField('Website', validators=[DataRequired(), URL()])
+    website = StringField('Website', validators=[DataRequired()])
     owner_username = StringField('Owner Username', validators=[DataRequired()])
+    image_uri = StringField('Image URI')
 
 
 class RouteForm(FlaskForm):
