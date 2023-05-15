@@ -24,11 +24,6 @@
 				<div class="relative -mx-4 flex items-center justify-between">
 					<div class="w-60 max-w-full px-4">
 						<a href="/" class="block w-full py-5 text-indigo-600 text-2xl">
-							<!-- <img
-								src="https://cdn.tailgrids.com/2.0/image/assets/images/logo/logo.svg"
-								alt="logo"
-								class="w-full"
-							/> -->
 							<strong>RouteRater</strong>
 						</a>
 					</div>
@@ -56,14 +51,6 @@
 								class="absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white py-5 px-6 shadow lg:static lg:block lg:w-full lg:max-w-full lg:shadow-none"
 							>
 								<ul class="block lg:flex">
-									<!-- <li>
-										<a
-											href="javascript:void(0)"
-											class="text-dark hover:text-primary flex py-2 text-base font-medium lg:ml-12 lg:inline-flex"
-										>
-											Home
-										</a>
-									</li> -->
 									<li>
 										<a
 											href="/gym/search"
@@ -72,6 +59,7 @@
 											Gyms
 										</a>
 									</li>
+									{% if current_user.is_authenticated %}
 									<li>
 										<a
 											href="/profile"
@@ -80,11 +68,13 @@
 											Profile
 										</a>
 									</li>
+									{% endif %}
 								</ul>
 							</nav>
 						</div>
 					</div>
 					<div class="flex w-full items-center justify-end">
+						{% if not current_user.is_authenticated %}
 						<div class="hidden justify-end pr-16 sm:flex lg:pr-0">
 							<a
 								href="{{url_for('climber.login')}}"
@@ -99,6 +89,16 @@
 								Sign Up
 							</a>
 						</div>
+						{% else %}
+						<div class="hidden justify-end pr-16 sm:flex lg:pr-0">
+							<a
+								href="/logout"
+								class="bg-indigo-600 mx-5 rounded-lg px-4 py-3 items-center justify-center text-base font-medium text-white hover:bg-opacity-90"
+							>
+								Logout
+							</a>
+						</div>
+						{% endif %}
 					</div>
 				</div>
 			</div>
