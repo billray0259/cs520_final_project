@@ -1,14 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>{% block title %}RouteRater{% endblock %}</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  {% block styles %}{% endblock %}
-  <link rel="stylesheet" href="/static/josh.css">
-</head>
-<body>
-  <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
+	<head>
+		<meta charset="UTF-8" />
+		<title>{% block title %}RouteRater{% endblock %}</title>
+		<!-- <link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+			crossorigin="anonymous"
+		/> -->
+		<link
+			href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+			rel="stylesheet"
+		/>
+		<!-- {% block styles %}{% endblock %} -->
+		<!-- <link rel="stylesheet" href="/static/josh.css" /> -->
+	</head>
+	<body>
+		<!-- <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
     <div class="container">
       <a class="navbar-brand" href="/">RouteRater</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,26 +57,115 @@
         {% endif %}
       </div>
     </div>
-  </nav>
+  </nav> -->
+		<!-- ====== Navbar Section Start -->
+		<header
+			x-data="
+        {
+          navbarOpen: false
+        }
+      "
+			class="flex w-full items-center justify-between bg-white"
+		>
+			<div class="container mx-auto">
+				<div class="relative -mx-4 flex items-center justify-between">
+					<div class="w-60 max-w-full px-4 items-center">
+						<a href="/" class="block w-full py-5 text-indigo-600 text-2xl">
+							<strong>RouteRater</strong>
+						</a>
+					</div>
+					<div class="flex w-full items-center justify-center px-4">
+						<div>
+							<button
+								@click="navbarOpen = !navbarOpen"
+								:class="navbarOpen && 'navbarTogglerActive' "
+								id="navbarToggler"
+								class="ring-primary absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] focus:ring-2 lg:hidden"
+							>
+								<span
+									class="bg-body-color relative my-[6px] block h-[2px] w-[30px]"
+								></span>
+								<span
+									class="bg-body-color relative my-[6px] block h-[2px] w-[30px]"
+								></span>
+								<span
+									class="bg-body-color relative my-[6px] block h-[2px] w-[30px]"
+								></span>
+							</button>
+							<nav
+								:class="!navbarOpen && 'hidden' "
+								id="navbarCollapse"
+								class="absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white py-5 px-6 shadow lg:static lg:block lg:w-full lg:max-w-full lg:shadow-none"
+							>
+								<ul class="block lg:flex">
+									<li>
+										<a
+											href="/gym/search"
+											class="text-dark hover:text-primary flex py-2 text-base font-medium lg:ml-12 lg:inline-flex hover:bg-indigo-600 p-3 rounded-lg hover:text-white"
+										>
+											Gyms
+										</a>
+									</li>
+									{% if current_user.is_authenticated %}
+									<li>
+										<a
+											href="/profile"
+											class="text-dark hover:text-primary flex py-2 text-base font-medium lg:ml-12 lg:inline-flex hover:bg-indigo-600 p-3 rounded-lg hover:text-white"
+										>
+											Profile
+										</a>
+									</li>
+									{% endif %}
+								</ul>
+							</nav>
+						</div>
+					</div>
+					<div class="flex w-full items-center justify-end">
+						{% if not current_user.is_authenticated %}
+						<div class="hidden justify-end pr-16 sm:flex lg:pr-0">
+							<a
+								href="{{url_for('climber.login')}}"
+								class="text-dark hover:text-primary py-3 px-7 text-base font-medium"
+							>
+								Login
+							</a>
+							<a
+								href="/register"
+								class="bg-indigo-600 mx-5 rounded-lg px-4 py-3 items-center justify-center text-base font-medium text-white hover:bg-opacity-90"
+							>
+								Sign Up
+							</a>
+						</div>
+						{% else %}
+						<div class="hidden justify-end pr-16 sm:flex lg:pr-0">
+							<a
+								href="/logout"
+								class="bg-indigo-600 mx-5 rounded-lg px-4 py-3 items-center justify-center text-base font-medium text-white hover:bg-opacity-90"
+							>
+								Logout
+							</a>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- ====== Navbar Section End -->
 
-  <div class="container">
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul class=flashes>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
 
-    {% block content %}{% endblock %}
-  </div>
+			 {% block content %}{% endblock %}
 
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa698ZN0HTieTq6TpAQq6wdtaO+M/trLvyEULt6vVTTEdhgJL6cypnvYj2N9AF" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper-base.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  {% block scripts %}{% endblock %}
-</body>
+		<script
+			src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+			integrity="sha384-J6qa698ZN0HTieTq6TpAQq6wdtaO+M/trLvyEULt6vVTTEdhgJL6cypnvYj2N9AF"
+			crossorigin="anonymous"
+		></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper-base.min.js"></script>
+		<script
+			src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+			integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+			crossorigin="anonymous"
+		></script>
+		{% block scripts %}{% endblock %}
+	</body>
 </html>
-

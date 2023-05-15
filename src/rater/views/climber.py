@@ -52,7 +52,7 @@ def login():
 
         # Log in user and redirect to index page
         login_user(climber)
-        return redirect(url_for('index'))
+        return redirect(url_for('gym.search'))
 
     # Render login page
     return render_template('climber/login.html', form=form, current_user=current_user)

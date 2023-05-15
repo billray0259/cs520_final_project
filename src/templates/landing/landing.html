@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link
+			href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+			rel="stylesheet"
+		/>
+		<title>RouteRater</title>
+	</head>
+	<body>
+		<!-- ====== Navbar Section Start -->
+		<header
+			x-data="
+        {
+          navbarOpen: false
+        }
+      "
+			class="flex w-full items-center justify-between bg-white"
+		>
+			<div class="container mx-auto">
+				<div class="relative -mx-4 flex items-center justify-between">
+					<div class="w-60 max-w-full px-4">
+						<a href="/" class="block w-full py-5 text-indigo-600 text-2xl">
+							<strong>RouteRater</strong>
+						</a>
+					</div>
+					<div class="flex w-full items-center justify-center px-4">
+						<div>
+							<button
+								@click="navbarOpen = !navbarOpen"
+								:class="navbarOpen && 'navbarTogglerActive' "
+								id="navbarToggler"
+								class="ring-primary absolute right-4 top-1/2 block -translate-y-1/2 rounded-lg px-3 py-[6px] focus:ring-2 lg:hidden"
+							>
+								<span
+									class="bg-body-color relative my-[6px] block h-[2px] w-[30px]"
+								></span>
+								<span
+									class="bg-body-color relative my-[6px] block h-[2px] w-[30px]"
+								></span>
+								<span
+									class="bg-body-color relative my-[6px] block h-[2px] w-[30px]"
+								></span>
+							</button>
+							<nav
+								:class="!navbarOpen && 'hidden' "
+								id="navbarCollapse"
+								class="absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white py-5 px-6 shadow lg:static lg:block lg:w-full lg:max-w-full lg:shadow-none"
+							>
+								<ul class="block lg:flex">
+									<li>
+										<a
+											href="/gym/search"
+											class="text-dark hover:text-primary flex py-2 text-base font-medium lg:ml-12 lg:inline-flex hover:bg-indigo-600 p-3 rounded-lg hover:text-white"
+										>
+											Gyms
+										</a>
+									</li>
+									{% if current_user.is_authenticated %}
+									<li>
+										<a
+											href="/profile"
+											class="text-dark hover:text-primary flex py-2 text-base font-medium lg:ml-12 lg:inline-flex hover:bg-indigo-600 p-3 rounded-lg hover:text-white"
+										>
+											Profile
+										</a>
+									</li>
+									{% endif %}
+								</ul>
+							</nav>
+						</div>
+					</div>
+					<div class="flex w-full items-center justify-end">
+						{% if not current_user.is_authenticated %}
+						<div class="hidden justify-end pr-16 sm:flex lg:pr-0">
+							<a
+								href="{{url_for('climber.login')}}"
+								class="text-dark hover:text-primary py-3 px-7 text-base font-medium"
+							>
+								Login
+							</a>
+							<a
+								href="/register"
+								class="bg-indigo-600 mx-5 rounded-lg px-4 py-3 items-center justify-center text-base font-medium text-white hover:bg-opacity-90"
+							>
+								Sign Up
+							</a>
+						</div>
+						{% else %}
+						<div class="hidden justify-end pr-16 sm:flex lg:pr-0">
+							<a
+								href="/logout"
+								class="bg-indigo-600 mx-5 rounded-lg px-4 py-3 items-center justify-center text-base font-medium text-white hover:bg-opacity-90"
+							>
+								Logout
+							</a>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</header>
+		<!-- ====== Navbar Section End -->
+
+		<!-- ====== About Section Start -->
+		<section
+			class="overflow-hidden pt-20 pb-12 lg:pt-[120px] lg:pb-[90px] bg-gray-900 text-white"
+		>
+			<div class="container mx-auto">
+				<div class="-mx-4 flex flex-wrap items-center justify-between">
+					<div class="w-full px-4 lg:w-6/12">
+						<div class="-mx-3 flex items-center sm:-mx-4">
+							<div class="w-full px-3 sm:px-4 xl:w-1/2">
+								<div class="py-3 sm:py-4">
+									<img
+										src="https://images.unsplash.com/photo-1577434150092-38785fc2074d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80"
+										alt=""
+										class="w-full rounded-2xl"
+									/>
+								</div>
+								<div class="py-3 sm:py-4">
+									<img
+										src="https://images.pexels.com/photos/5383549/pexels-photo-5383549.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+										alt=""
+										class="w-full rounded-2xl"
+									/>
+								</div>
+							</div>
+							<div class="w-full px-3 sm:px-4 xl:w-1/2">
+								<div class="relative z-10 my-4">
+									<img
+										src="https://images.pexels.com/photos/5384398/pexels-photo-5384398.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+										alt=""
+										class="w-full rounded-2xl"
+									/>
+									<span class="absolute -right-7 -bottom-7 z-[-1]">
+										<svg
+											width="134"
+											height="106"
+											viewBox="0 0 134 106"
+											fill="none"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<circle
+												cx="1.66667"
+												cy="104"
+												r="1.66667"
+												transform="rotate(-90 1.66667 104)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="16.3333"
+												cy="104"
+												r="1.66667"
+												transform="rotate(-90 16.3333 104)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="31"
+												cy="104"
+												r="1.66667"
+												transform="rotate(-90 31 104)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="45.6667"
+												cy="104"
+												r="1.66667"
+												transform="rotate(-90 45.6667 104)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="60.3334"
+												cy="104"
+												r="1.66667"
+												transform="rotate(-90 60.3334 104)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="88.6667"
+												cy="104"
+												r="1.66667"
+												transform="rotate(-90 88.6667 104)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="117.667"
+												cy="104"
+												r="1.66667"
+												transform="rotate(-90 117.667 104)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="74.6667"
+												cy="104"
+												r="1.66667"
+												transform="rotate(-90 74.6667 104)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="103"
+												cy="104"
+												r="1.66667"
+												transform="rotate(-90 103 104)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="132"
+												cy="104"
+												r="1.66667"
+												transform="rotate(-90 132 104)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="1.66667"
+												cy="89.3333"
+												r="1.66667"
+												transform="rotate(-90 1.66667 89.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="16.3333"
+												cy="89.3333"
+												r="1.66667"
+												transform="rotate(-90 16.3333 89.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="31"
+												cy="89.3333"
+												r="1.66667"
+												transform="rotate(-90 31 89.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="45.6667"
+												cy="89.3333"
+												r="1.66667"
+												transform="rotate(-90 45.6667 89.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="60.3333"
+												cy="89.3338"
+												r="1.66667"
+												transform="rotate(-90 60.3333 89.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="88.6667"
+												cy="89.3338"
+												r="1.66667"
+												transform="rotate(-90 88.6667 89.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="117.667"
+												cy="89.3338"
+												r="1.66667"
+												transform="rotate(-90 117.667 89.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="74.6667"
+												cy="89.3338"
+												r="1.66667"
+												transform="rotate(-90 74.6667 89.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="103"
+												cy="89.3338"
+												r="1.66667"
+												transform="rotate(-90 103 89.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="132"
+												cy="89.3338"
+												r="1.66667"
+												transform="rotate(-90 132 89.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="1.66667"
+												cy="74.6673"
+												r="1.66667"
+												transform="rotate(-90 1.66667 74.6673)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="1.66667"
+												cy="31.0003"
+												r="1.66667"
+												transform="rotate(-90 1.66667 31.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="16.3333"
+												cy="74.6668"
+												r="1.66667"
+												transform="rotate(-90 16.3333 74.6668)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="16.3333"
+												cy="31.0003"
+												r="1.66667"
+												transform="rotate(-90 16.3333 31.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="31"
+												cy="74.6668"
+												r="1.66667"
+												transform="rotate(-90 31 74.6668)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="31"
+												cy="31.0003"
+												r="1.66667"
+												transform="rotate(-90 31 31.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="45.6667"
+												cy="74.6668"
+												r="1.66667"
+												transform="rotate(-90 45.6667 74.6668)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="45.6667"
+												cy="31.0003"
+												r="1.66667"
+												transform="rotate(-90 45.6667 31.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="60.3333"
+												cy="74.6668"
+												r="1.66667"
+												transform="rotate(-90 60.3333 74.6668)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="60.3333"
+												cy="30.9998"
+												r="1.66667"
+												transform="rotate(-90 60.3333 30.9998)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="88.6667"
+												cy="74.6668"
+												r="1.66667"
+												transform="rotate(-90 88.6667 74.6668)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="88.6667"
+												cy="30.9998"
+												r="1.66667"
+												transform="rotate(-90 88.6667 30.9998)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="117.667"
+												cy="74.6668"
+												r="1.66667"
+												transform="rotate(-90 117.667 74.6668)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="117.667"
+												cy="30.9998"
+												r="1.66667"
+												transform="rotate(-90 117.667 30.9998)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="74.6667"
+												cy="74.6668"
+												r="1.66667"
+												transform="rotate(-90 74.6667 74.6668)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="74.6667"
+												cy="30.9998"
+												r="1.66667"
+												transform="rotate(-90 74.6667 30.9998)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="103"
+												cy="74.6668"
+												r="1.66667"
+												transform="rotate(-90 103 74.6668)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="103"
+												cy="30.9998"
+												r="1.66667"
+												transform="rotate(-90 103 30.9998)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="132"
+												cy="74.6668"
+												r="1.66667"
+												transform="rotate(-90 132 74.6668)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="132"
+												cy="30.9998"
+												r="1.66667"
+												transform="rotate(-90 132 30.9998)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="1.66667"
+												cy="60.0003"
+												r="1.66667"
+												transform="rotate(-90 1.66667 60.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="1.66667"
+												cy="16.3333"
+												r="1.66667"
+												transform="rotate(-90 1.66667 16.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="16.3333"
+												cy="60.0003"
+												r="1.66667"
+												transform="rotate(-90 16.3333 60.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="16.3333"
+												cy="16.3333"
+												r="1.66667"
+												transform="rotate(-90 16.3333 16.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="31"
+												cy="60.0003"
+												r="1.66667"
+												transform="rotate(-90 31 60.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="31"
+												cy="16.3333"
+												r="1.66667"
+												transform="rotate(-90 31 16.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="45.6667"
+												cy="60.0003"
+												r="1.66667"
+												transform="rotate(-90 45.6667 60.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="45.6667"
+												cy="16.3333"
+												r="1.66667"
+												transform="rotate(-90 45.6667 16.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="60.3333"
+												cy="60.0003"
+												r="1.66667"
+												transform="rotate(-90 60.3333 60.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="60.3333"
+												cy="16.3333"
+												r="1.66667"
+												transform="rotate(-90 60.3333 16.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="88.6667"
+												cy="60.0003"
+												r="1.66667"
+												transform="rotate(-90 88.6667 60.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="88.6667"
+												cy="16.3333"
+												r="1.66667"
+												transform="rotate(-90 88.6667 16.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="117.667"
+												cy="60.0003"
+												r="1.66667"
+												transform="rotate(-90 117.667 60.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="117.667"
+												cy="16.3333"
+												r="1.66667"
+												transform="rotate(-90 117.667 16.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="74.6667"
+												cy="60.0003"
+												r="1.66667"
+												transform="rotate(-90 74.6667 60.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="74.6667"
+												cy="16.3333"
+												r="1.66667"
+												transform="rotate(-90 74.6667 16.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="103"
+												cy="60.0003"
+												r="1.66667"
+												transform="rotate(-90 103 60.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="103"
+												cy="16.3333"
+												r="1.66667"
+												transform="rotate(-90 103 16.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="132"
+												cy="60.0003"
+												r="1.66667"
+												transform="rotate(-90 132 60.0003)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="132"
+												cy="16.3333"
+												r="1.66667"
+												transform="rotate(-90 132 16.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="1.66667"
+												cy="45.3333"
+												r="1.66667"
+												transform="rotate(-90 1.66667 45.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="1.66667"
+												cy="1.66683"
+												r="1.66667"
+												transform="rotate(-90 1.66667 1.66683)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="16.3333"
+												cy="45.3333"
+												r="1.66667"
+												transform="rotate(-90 16.3333 45.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="16.3333"
+												cy="1.66683"
+												r="1.66667"
+												transform="rotate(-90 16.3333 1.66683)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="31"
+												cy="45.3333"
+												r="1.66667"
+												transform="rotate(-90 31 45.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="31"
+												cy="1.66683"
+												r="1.66667"
+												transform="rotate(-90 31 1.66683)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="45.6667"
+												cy="45.3333"
+												r="1.66667"
+												transform="rotate(-90 45.6667 45.3333)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="45.6667"
+												cy="1.66683"
+												r="1.66667"
+												transform="rotate(-90 45.6667 1.66683)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="60.3333"
+												cy="45.3338"
+												r="1.66667"
+												transform="rotate(-90 60.3333 45.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="60.3333"
+												cy="1.66683"
+												r="1.66667"
+												transform="rotate(-90 60.3333 1.66683)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="88.6667"
+												cy="45.3338"
+												r="1.66667"
+												transform="rotate(-90 88.6667 45.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="88.6667"
+												cy="1.66683"
+												r="1.66667"
+												transform="rotate(-90 88.6667 1.66683)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="117.667"
+												cy="45.3338"
+												r="1.66667"
+												transform="rotate(-90 117.667 45.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="117.667"
+												cy="1.66683"
+												r="1.66667"
+												transform="rotate(-90 117.667 1.66683)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="74.6667"
+												cy="45.3338"
+												r="1.66667"
+												transform="rotate(-90 74.6667 45.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="74.6667"
+												cy="1.66683"
+												r="1.66667"
+												transform="rotate(-90 74.6667 1.66683)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="103"
+												cy="45.3338"
+												r="1.66667"
+												transform="rotate(-90 103 45.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="103"
+												cy="1.66683"
+												r="1.66667"
+												transform="rotate(-90 103 1.66683)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="132"
+												cy="45.3338"
+												r="1.66667"
+												transform="rotate(-90 132 45.3338)"
+												fill="#4f46e5"
+											/>
+											<circle
+												cx="132"
+												cy="1.66683"
+												r="1.66667"
+												transform="rotate(-90 132 1.66683)"
+												fill="#4f46e5"
+											/>
+										</svg>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="w-full px-4 lg:w-1/2 xl:w-5/12">
+						<div class="mt-10 lg:mt-0">
+							<span class="text-primary mb-2 block text-lg font-semibold">
+								What is <strong class="text-indigo-600">RouteRater</strong>?
+							</span>
+							<h2 class="text-dark mb-8 text-3xl font-bold sm:text-4xl">
+								Elevating indoor route ratings and progress tracking.
+							</h2>
+							<p class="text-body-color mb-8 text-base">
+								RouteRater is a web app revolutionizing indoor climbing by
+								improving route ratings. It utilizes QR codes for climbers to
+								provide accurate difficulty ratings, leading to consistent and
+								reliable assessments.
+							</p>
+							<p class="text-body-color mb-12 text-base">
+								RouteRater offers personal progress tracking, allowing climbers
+								to monitor their skill development over time. With RouteRater,
+								climbers can enhance their climbing experience and make informed
+								decisions based on reliable route ratings and their own growth.
+							</p>
+							<a
+								href="/register"
+								class="bg-indigo-600 inline-flex items-center justify-center rounded-lg py-4 px-10 text-center text-base font-normal text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+							>
+								Get Started
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<!-- ====== About Section End -->
+		<!-- ====== Services Section Start -->
+		<div class="bg-white py-24 sm:py-32">
+			<div class="mx-auto max-w-7xl px-6 lg:px-8">
+				<div class="mx-auto max-w-2xl lg:text-center">
+					<h2 class="text-base font-semibold leading-7 text-indigo-600">
+						Climb. Track. Connect.
+					</h2>
+					<p
+						class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl"
+					>
+						Scale Heights, Track Progress, Connect Climbers
+					</p>
+					<p class="mt-6 text-lg leading-8 text-gray-600">
+						The ultimate climbing companion, helping you climb higher and
+						smarter with tools for scaling routes, tracking progress, and
+						connecting with fellow climbers.
+					</p>
+				</div>
+				<div class="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
+					<dl
+						class="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-2 lg:gap-y-16"
+					>
+						<div class="relative pl-16">
+							<dt class="text-base font-semibold leading-7 text-gray-900">
+								<div
+									class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600"
+								>
+									<svg
+										class="h-6 w-6 text-white"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z"
+										/>
+									</svg>
+								</div>
+								Gym Creation
+							</dt>
+							<dd class="mt-2 text-base leading-7 text-gray-600">
+								Easily create and manage climbing gyms within RouteRater,
+								setting up details, facilities, and route settings specific to
+								each gym.
+							</dd>
+						</div>
+						<div class="relative pl-16">
+							<dt class="text-base font-semibold leading-7 text-gray-900">
+								<div
+									class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600"
+								>
+									<svg
+										class="h-6 w-6 text-white"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+										/>
+									</svg>
+								</div>
+								Route Management
+							</dt>
+							<dd class="mt-2 text-base leading-7 text-gray-600">
+								Seamlessly create, organize, and manage climbing routes with
+								accurate difficulty ratings, descriptions, and performance
+								tracking for climbers.
+							</dd>
+						</div>
+						<div class="relative pl-16">
+							<dt class="text-base font-semibold leading-7 text-gray-900">
+								<div
+									class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600"
+								>
+									<svg
+										class="h-6 w-6 text-white"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"
+										/>
+									</svg>
+								</div>
+								Personal Progress Tracking
+							</dt>
+							<dd class="mt-2 text-base leading-7 text-gray-600">
+								Monitor your climbing journey, track completed routes, and
+								record personal bests to witness your skill development over
+								time.
+							</dd>
+						</div>
+						<div class="relative pl-16">
+							<dt class="text-base font-semibold leading-7 text-gray-900">
+								<div
+									class="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-600"
+								>
+									<svg
+										class="h-6 w-6 text-white"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										aria-hidden="true"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M7.864 4.243A7.5 7.5 0 0119.5 10.5c0 2.92-.556 5.709-1.568 8.268M5.742 6.364A7.465 7.465 0 004.5 10.5a7.464 7.464 0 01-1.15 3.993m1.989 3.559A11.209 11.209 0 008.25 10.5a3.75 3.75 0 117.5 0c0 .527-.021 1.049-.064 1.565M12 10.5a14.94 14.94 0 01-3.6 9.75m6.633-4.596a18.666 18.666 0 01-2.485 5.33"
+										/>
+									</svg>
+								</div>
+								Social Networking
+							</dt>
+							<dd class="mt-2 text-base leading-7 text-gray-600">
+								Connect with climbers, engage in discussions, and share
+								achievements, fostering a supportive community of climbers
+								within RouteRater.
+							</dd>
+						</div>
+					</dl>
+				</div>
+			</div>
+		</div>
+
+		<!-- ====== Services Section End -->
+
+		<!-- ====== Newsletter Section Start -->
+		<section class="bg-gray-900">
+			<div
+				class="container px-4 py-16 mx-auto lg:flex lg:items-center lg:justify-between"
+			>
+				<h2
+					class="text-2xl font-semibold tracking-tight xl:text-3xl text-white"
+				>
+					Join us and get the update from anywhere
+				</h2>
+
+				<!-- <div class="mt-8 lg:mt-0"> -->
+				<div class="flex flex-col space-y-3 sm:space-y-0 sm:flex-row sm:-mx-2">
+					<input
+						id="email"
+						type="text"
+						class="px-4 py-2 text-gray-700 bg-white border border-gray-200 rounded-lg sm:mx-2 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+						placeholder="Email Address"
+					/>
+
+					<button
+						class="px-6 py-2 text-sm tracking-wide text-white capitalize transition-colors duration-300 transform bg-indigo-600 rounded-lg focus:ring focus:ring-blue-300 focus:ring-opacity-80 fo sm:mx-2 hover:bg-indigo-500 focus:outline-none focus:bg-indigo-500"
+					>
+						Get Started
+					</button>
+				</div>
+				<!-- </div> -->
+			</div>
+		</section>
+		<!-- ====== Newsletter Section End -->
+
+		<!-- ====== Footer Section Start -->
+		<footer class="px-4 py-8 dark:bg-gray-800 dark:text-gray-400">
+			<div
+				class="container flex flex-wrap items-center justify-center mx-auto space-y-4 sm:justify-between sm:space-y-0"
+			>
+				<div class="flex flex-row pr-3 space-x-4 sm:space-x-8">
+					<!-- <div
+						class="flex items-center justify-between flex-shrink-0 w-12 h-12 rounded-full dark:bg-violet-400"
+					> -->
+					<!-- <svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							fill="currentColor"
+							class="w-5 h-5 rounded-full dark:text-gray-900"
+						>
+							<path
+								d="M18.266 26.068l7.839-7.854 4.469 4.479c1.859 1.859 1.859 4.875 0 6.734l-1.104 1.104c-1.859 1.865-4.875 1.865-6.734 0zM30.563 2.531l-1.109-1.104c-1.859-1.859-4.875-1.859-6.734 0l-6.719 6.734-6.734-6.734c-1.859-1.859-4.875-1.859-6.734 0l-1.104 1.104c-1.859 1.859-1.859 4.875 0 6.734l6.734 6.734-6.734 6.734c-1.859 1.859-1.859 4.875 0 6.734l1.104 1.104c1.859 1.859 4.875 1.859 6.734 0l21.307-21.307c1.859-1.859 1.859-4.875 0-6.734z"
+							></path>
+						</svg> -->
+					<a href="/" class="text-indigo-600 text-lg">
+						<strong>RouteRater</strong>
+					</a>
+					<!-- </div> -->
+					<ul class="flex flex-wrap items-center space-x-4 sm:space-x-8">
+						<li>
+							<a rel="noopener noreferrer" href="#">Terms of Use</a>
+						</li>
+						<li>
+							<a rel="noopener noreferrer" href="#">Privacy</a>
+						</li>
+					</ul>
+				</div>
+				<ul class="flex flex-wrap pl-3 space-x-4 sm:space-x-8">
+					<li>
+						<a rel="noopener noreferrer" href="#">GitHub</a>
+					</li>
+					<li>
+						<a rel="noopener noreferrer" href="#">Instagram</a>
+					</li>
+					<li>
+						<a rel="noopener noreferrer" href="#">Twitter</a>
+					</li>
+				</ul>
+			</div>
+		</footer>
+		<!-- ====== Footer Section End -->
+	</body>
+</html>
