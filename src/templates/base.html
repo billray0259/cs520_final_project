@@ -13,8 +13,8 @@
 			href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
 			rel="stylesheet"
 		/>
-		{% block styles %}{% endblock %}
-		<link rel="stylesheet" href="/static/josh.css" />
+		<!-- {% block styles %}{% endblock %} -->
+		<!-- <link rel="stylesheet" href="/static/josh.css" /> -->
 	</head>
 	<body>
 		<!-- <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
@@ -152,15 +152,8 @@
 		</header>
 		<!-- ====== Navbar Section End -->
 
-		<div class="container">
-			{% with messages = get_flashed_messages() %} {% if messages %}
-			<ul class="flashes">
-				{% for message in messages %}
-				<li>{{ message }}</li>
-				{% endfor %}
-			</ul>
-			{% endif %} {% endwith %} {% block content %}{% endblock %}
-		</div>
+
+			 {% block content %}{% endblock %}
 
 		<script
 			src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
