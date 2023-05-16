@@ -4,37 +4,44 @@
 
 {% block content %}
 
-<div class="container">
+<div class="container mt-5">
 
-    {{ macros.profile_card(current_user) }}
-
-    <div class="profile_gyms">
-        <h1>Your Gyms</h1>
-        {% for gym in current_user.get_favorite_gyms() %}
-            {{ macros.gym_card(gym) }}
-        {% endfor %}
-        <button type="button" class="btn btn-primary">Find Gyms</button>
-    </div>
-
-    <div class="friends">
-        <h1>Friends</h1>
-        {% for friend in current_user.get_friends() %}
-            {{ macros.friend_card(friend) }}
-        {% endfor %}
-        <a href="/profile/friends"><button type="button" class="btn btn-primary">Add Friend</button></a>
-    </div>
-
-    <div class="attempts">
-        <h1>Attempts</h1>
-
-        {% for att in attempts %}
-        <div class="attempt bg-light">
-            <h4>{{ att.route.name }}</h4>
-            <h4>Completed: {{ att.success }}</h4>
-            <h4>Date: {{ att.time }}</h4>
-            <h4>Grade: {{ att.grade }}</h4>
+    <div class="row">
+        <div class="col-lg-4">
+            {{ macros.profile_card(current_user) }}
         </div>
-        {% endfor %}
+
+        <div class="col-lg-8">
+            <div class="row mb-4">
+                <div class="col">
+                    <h2>Your Gyms</h2>
+                    {% for gym in current_user.get_favorite_gyms() %}
+                        {{ macros.gym_card(gym) }}
+                    {% endfor %}
+                    <a type="button" class="btn btn-primary mt-2" href="{{url_for('gym.search')}}">Find Gyms</a>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col">
+                    <h2>Friends</h2>
+                    {% for friend in current_user.get_friends() %}
+                        {{ macros.friend_card(friend) }}
+                    {% endfor %}
+                    <a href="{{url_for('climber.friends')}}" class="btn btn-primary mt-2">Add Friend</a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <h2>Attempts</h2>
+
+                    {% for att in attempts %}
+                        {{ macros.attempt_card(att) }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
