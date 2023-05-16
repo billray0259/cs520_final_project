@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% from 'gym/_macros.html' import route_card %}
-{% from 'climber/_macros.html' import attempt_card %} <!-- Use the attempt_card -->
+{% from 'climber/_macros.html' import attempt_card %}
 
 {% block content %}
 <div class="container">
@@ -16,14 +16,34 @@
     </div>
 
     {% if current_user.is_authenticated %}
-        <a href="{{ url_for('climber.add_attempt', route_id=route.id) }}" class="btn btn-primary mb-4">Add Attempt</a>
+        {% if current_user.id == gym.owner_id or current_user.id in gym.admins %}
+            <div class="col-md-4">
+                <div class="card my-4">
+                    <div class="card-header">
+                        <h3>Admin Controls</h3>
+                    </div>
+                    <div class="card-body text-center">
+                        <!-- Display the QR code -->
+                        <img src="data:image/png;base64,{{ qr_code_b64 }}" alt="QR Code" style="width: 200px; height: 200px;">
 
-        <div class="row">
-            {% for att in climber_attempts %}
-                <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-                    {{ attempt_card(att) }}
+                        <!-- Provide a download link -->
+                        <div class="mt-2">
+                            <a href="data:image/png;base64,{{ qr_code_b64 }}" download="qrcode.png" class="btn btn-primary">Download QR Code</a>
+                        </div>
+                    </div>
                 </div>
-            {% endfor %}
+            </div>
+        {% endif %}
+        
+        <div class="row">
+            <div class="col-md-8">
+                <a href="{{ url_for('climber.add_attempt', route_id=route.id) }}" class="btn btn-primary mb-4">Add Attempt</a>
+                {% for att in climber_attempts %}
+                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+                        {{ attempt_card(att) }}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     {% endif %}
 </div>

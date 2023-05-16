@@ -30,6 +30,7 @@ def create():
 
 
 @gym_bp.route('/gym/search', methods=['GET'])
+@login_required
 def search():
     # Parse query parameters
     name = request.args.get('name', None)
