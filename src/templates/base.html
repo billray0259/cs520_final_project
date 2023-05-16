@@ -3,12 +3,12 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>{% block title %}RouteRater{% endblock %}</title>
-		<!-- <link
+		<link
 			rel="stylesheet"
 			href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 			integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 			crossorigin="anonymous"
-		/> -->
+		/>
 		<link
 			href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
 			rel="stylesheet"
@@ -92,10 +92,15 @@
 									class="bg-body-color relative my-[6px] block h-[2px] w-[30px]"
 								></span>
 							</button>
-							<nav
+							<!-- <nav
 								:class="!navbarOpen && 'hidden' "
 								id="navbarCollapse"
 								class="absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white py-5 px-6 shadow lg:static lg:block lg:w-full lg:max-w-full lg:shadow-none"
+							> -->
+							<nav
+								:class="!navbarOpen && 'hidden' "
+								id="navbarCollapse"
+								class="absolute right-4 top-full w-full max-w-[250px] rounded-lg bg-white lg:static lg:block lg:w-full lg:max-w-full lg:shadow-none"
 							>
 								<ul class="block lg:flex">
 									<li>
@@ -151,9 +156,7 @@
 			</div>
 		</header>
 		<!-- ====== Navbar Section End -->
-
-
-			 {% block content %}{% endblock %}
+			{% block content %}{% endblock %}
 
 		<script
 			src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

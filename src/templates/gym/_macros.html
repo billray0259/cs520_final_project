@@ -21,11 +21,15 @@
 
 
 {% macro route_card(route, current_user) %}
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">{{ route.name }}</h5>
-        <p class="card-text">{{ route.color }}</p>
-        <a href="{{ url_for('route.view', route_id=route.id) }}">Route Page</a>
+<a href="{{ url_for('route.view', route_id=route.id) }}" style="text-decoration: none; color: inherit;">
+    <div class="card mb-3" style="background-color: {{ route.color }};">
+        <div class="card-body text-center">
+            <h5 class="card-title" style="color: white; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">{{ route.name }}</h5>
+            <p class="card-text" style="color: white; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">{{ route.grade }}</p>
+        </div>
     </div>
-</div>
+</a>
 {% endmacro %}
+
+
+

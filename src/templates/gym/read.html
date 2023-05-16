@@ -3,37 +3,42 @@
 {% from 'gym/_macros.html' import route_card %}
 
 {% block content %}
-<div class="container">
-    <h1>{{ gym.name }}</h1>
-    <h2>{{ gym.address }}</h2>
-    <p>Website: <a href="{{ gym.website }}">{{ gym.website }}</a></p>
-    <p>Owner: {{ gym.get_owner().username }}</p>
+<div class="container mt-4">
 
-    {% if current_user.is_authenticated and (current_user.id == gym.owner_id or current_user.id in gym.admins) %}
-    <p><a href="{{ url_for('gym.edit', gym_id=gym.id) }}">Edit gym details</a></p>
-    {% endif %}
-
-    {% if routes %}
-    <h3>Routes:</h3>
-    {% for route in routes %}
-        {{ route_card(route, current_user) }}
-    {% endfor %}
-    {% else %}
-    <p>No routes found.</p>
-    {% endif %}
-
-    {% if current_user.is_authenticated and (current_user.id == gym.owner_id or current_user.id in gym.admins) %}
-    <!-- <h3>Add Route:</h3>
-    <form method="POST" action="{{ url_for('route.create') }}">
-        <div class="form-group">
-            <label for="color">Color:</label>
-            <input type="text" class="form-control" id="color" name="color" required>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2 class="mb-0">{{ gym.name }}</h2>
         </div>
-        <input type="hidden" name="gym_id" value="{{ gym.id }}">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form> -->
-    <!-- button to route.create page -->
-    <a href="{{ url_for('route.create', gym_id=gym.id) }}" class="btn btn-primary">Add Route</a>
-    {% endif %}
+        <div class="card-body">
+            <h4 class="card-title">{{ gym.address }}</h4>
+            <p>Website: <a href="{{ gym.website }}">{{ gym.website }}</a></p>
+            <p>Owner: {{ gym.get_owner().username }}</p>
+
+            {% if current_user.is_authenticated and (current_user.id == gym.owner_id or current_user.id in gym.admins) %}
+            <a href="{{ url_for('gym.edit', gym_id=gym.id) }}" class="btn btn-warning">Edit Gym Details</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <h3>Routes:</h3>
+        <div class="row">
+            {% if routes %}
+            {% for route in routes %}
+                <div class="col-sm-12 col-md-3 mb-4">
+                    {{ route_card(route, current_user) }}
+                </div>
+            {% endfor %}
+            {% else %}
+            <div class="alert alert-warning" role="alert">No routes found.</div>
+            {% endif %}
+        </div>
+    
+        {% if current_user.is_authenticated and (current_user.id == gym.owner_id or current_user.id in gym.admins) %}
+            <a href="{{ url_for('route.create', gym_id=gym.id) }}" class="btn btn-primary">Add Route</a>
+        {% endif %}
+    </div>
+    
+
 </div>
 {% endblock %}

@@ -1,9 +1,11 @@
 {% macro profile_card(current_user) %}
 
-<div class="profile_card bg-light">
-    <img src="/static/defaultuser.png">
-    <p class="username">{{ current_user.username }}'s Profile</p>
-    <a href="{{ url_for('climber.edit_profile') }}"><button type="button" class="btn btn-warning">Edit Profile</button></a>
+<div class="card profile_card text-center">
+    <img src="/static/defaultuser.png" class="card-img-top rounded-circle w-50 mx-auto mt-3">
+    <div class="card-body">
+        <h4 class="card-title">{{ current_user.username }}'s Profile</h4>
+        <a href="{{ url_for('climber.edit_profile') }}" class="btn btn-warning mt-2">Edit Profile</a>
+    </div>
 </div>
 
 {% endmacro %}
@@ -13,7 +15,7 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">{{ gym.name }}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">{{ gym.address }}</h6>
+        <p class="card-subtitle text-muted">{{ gym.address }}</p>
     </div>
 </div>
 
@@ -25,9 +27,9 @@
     <div class="card-body">
         <h5 class="card-title">{{ user.username }}</h5>
         {% if current_user.is_friend(user) %}
-            <a href="{{ url_for('climber.remove_friend', user_id=user.id) }}" class="btn btn-danger">Remove Friend</a>
+            <a href="{{ url_for('climber.remove_friend', user_id=user.id) }}" class="btn btn-danger mt-2">Remove Friend</a>
         {% else %}
-            <a href="{{ url_for('climber.add_friend', user_id=user.id) }}" class="btn btn-success">Add Friend</a>
+            <a href="{{ url_for('climber.add_friend', user_id=user.id) }}" class="btn btn-success mt-2">Add Friend</a>
         {% endif%}
     </div>
 </div>
@@ -39,6 +41,23 @@
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">{{ friend.username }}</h5>
+    </div>
+</div>
+
+{% endmacro %}
+
+{% macro attempt_card(att) %}
+
+<div class="card mb-2">
+    <div class="card-header">
+        <h5 class="card-title mb-0">{{ att.route.name }}</h5>
+    </div>
+    <div class="card-body">
+        <span class="badge {{ 'badge-success' if att.success else 'badge-danger' }}">
+            {{ 'Success' if att.success else 'Failed' }}
+        </span>
+        <p class="card-text mt-2 mb-0">Date: {{ att.time }}</p>
+        <p class="card-text mb-0">Grade: {{ att.grade }}</p>
     </div>
 </div>
 
