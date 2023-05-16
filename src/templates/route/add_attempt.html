@@ -3,24 +3,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <div class="container">
-    Add Attempt for {{ route.name }}
+    <div class="row">
+        <div class="col-12 col-md-8 col-lg-6 mx-auto">
+            <div class="card my-4">
+                <div class="card-header text-center">
+                    <h1>Add Attempt for {{ route.name }}</h1>
+                </div>
+                <div class="card-body">
+                    <form method="POST">
+                        {{ form.csrf_token }}
 
-    <form method="POST">
-        {{ form.csrf_token }}
+                        <div class="form-group mb-3">
+                            {{ render_field(form.success) }}
+                        </div>
 
-        {{ render_field(form.success) }}
+                        <div class="form-group mb-3">
+                            {{ render_field(form.grade) }}
+                        </div>
 
-        {{ render_field(form.grade) }}
+                        {{ render_errors(errors) }}
 
-        {{ render_errors(errors) }}
-        
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Add Attempt</button>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary w-100">Add Attempt</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    </form>
-
+    </div>
 </div>
-
 {% endblock %}
