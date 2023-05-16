@@ -1,9 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user, logout_user, login_required
 from rater.forms import RegistrationForm, LoginForm, AttemptForm
-from rater.models.climber import Climber
-from rater.models.route import Route
-from rater.models.attempt import Attempt
+from rater.models import Climber, Route, Attempt, Gym
 
 
 climber_bp = Blueprint('climber', __name__)
@@ -69,6 +67,7 @@ def logout():
 @climber_bp.route('/profile')
 def profile():
     attempts = current_user.get_all_attempts()
+    current_user.get_favorite_gyms = lambda : Gym.get_favorite_gyms(current_user)
     return render_template('climber/profile.html', current_user=current_user, attempts=attempts)
 
 @climber_bp.route('/profile/edit')
