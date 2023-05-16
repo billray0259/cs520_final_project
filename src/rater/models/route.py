@@ -89,6 +89,9 @@ class Route:
         for a in attempts:
             total += a
         
+        if len(attempts) == 0:
+            return None
+
         avg = total / len(attempts)
 
         return avg
