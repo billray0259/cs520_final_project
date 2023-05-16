@@ -66,7 +66,7 @@ def logout():
 
 @climber_bp.route('/profile')
 def profile():
-    attempts = current_user.get_all_attempts()
+    attempts = Attempt.find_by_climber(current_user)
     current_user.get_favorite_gyms = lambda : Gym.get_favorite_gyms(current_user)
     return render_template('climber/profile.html', current_user=current_user, attempts=attempts)
 

@@ -1,7 +1,6 @@
 from rater import app
 from bson.objectid import ObjectId
 from datetime import datetime
-# from rater.models import Climber, Attempt, Comment, GradeEstimate
 
 db = app.config['MONGO']
 

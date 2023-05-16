@@ -6,7 +6,7 @@ from bson import ObjectId
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
 from rater.forms import RouteForm
-from rater.models import Gym, Route
+from rater.models import Gym, Route, Attempt
 
 route_bp = Blueprint('route', __name__)
 
@@ -44,7 +44,7 @@ def view(route_id):
     if route is None:
         return redirect(url_for('main.index'))
 
-    climber_attempts = current_user.get_attempts_for_route(route.id)
+    climber_attempts = Attempt.find_by_route(route)
     estimate = route.get_grade_estimate()
 
     # Generate the QR code

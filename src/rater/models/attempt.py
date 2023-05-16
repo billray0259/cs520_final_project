@@ -10,6 +10,7 @@ class Attempt:
         self.id = _id if _id is not None else ObjectId()
         self.success = success
         self.route_id = route_id
+        self.route = Route.find_by_id(route_id)
         self.climber_id = climber_id
         self.grade = grade
         self.time = time if time is not None else datetime.utcnow()
