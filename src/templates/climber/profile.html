@@ -1,49 +1,158 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% import 'climber/_macros.html' as macros %} {% block
+content %}
+<div class="bg-gray-900 py-6 sm:py-8 lg:py-12">
+	<div class="container mt-5 flex items-center justify-center">
+		<div class="p-10 bg-white shadow-lg rounded-2xl dark:bg-gray-800 w-1/2">
+			<div class="flex flex-row items-start gap-4">
+				<img
+					src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80"
+					class="rounded-lg h-25 w-20"
+				/>
+				<div class="flex flex-col justify-between w-full h-28">
+					<div>
+						<p class="text-2xl font-medium text-gray-800 dark:text-white">
+							{{current_user.username}}
+						</p>
+					</div>
+					<div class="w-full p-2 bg-blue-100 rounded-lg dark:bg-white">
+						<div
+							class="flex items-center justify-between text-md text-gray-400 dark:text-black"
+						>
+							<p class="flex flex-col">
+								Friends
+								<span
+									class="font-bold text-black dark:text-indigo-500 text-center"
+								>
+									{{current_user.get_friends_size()}}
+								</span>
+							</p>
+							<p class="flex flex-col">
+								Gyms
+								<span
+									class="font-bold text-black dark:text-indigo-500 text-center"
+								>
+									{{current_user.get_favorite_gyms_size()}}
+								</span>
+							</p>
+							<p class="flex flex-col">
+								Attempts
+								<span
+									class="font-bold text-black dark:text-indigo-500 text-center"
+								>
+									{{current_user_attempts}}
+								</span>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="flex items-center justify-between gap-4 mt-6">
+				<a
+					href="{{ url_for('climber.edit_profile') }}"
+					class="w-1/3 px-2 py-2 text-base bg-white border rounded-lg text-grey-500 hover:bg-gray-200 text-center"
+					><button type="button">Edit Profile</button></a
+				>
+				<a
+					href="{{url_for('climber.friends')}}"
+					class="w-1/3 px-2 py-2 text-base text-white bg-indigo-500 border rounded-lg hover:bg-indigo-700 text-center"
+				>
+					<button type="button">Add friend</button>
+				</a>
+				<a
+					href="{{url_for('gym.search')}}"
+					class="w-1/3 px-2 py-2 text-base bg-white border rounded-lg text-grey-500 hover:bg-gray-200 text-center"
+					><button type="button">Find Gyms</button></a
+				>
+			</div>
+		</div>
+	</div>
 
-{% import 'climber/_macros.html' as macros %}
+	<section class="bg-gray-900">
+		<div class="container px-6 py-10 mx-auto">
+			<h1 class="text-2xl font-semibold capitalize lg:text-3xl text-white">
+				Attempted Routes
+			</h1>
+			<p class="text-lg text-gray-600 font-semibold hover:underline">
+				Find all your attempted routes from all your gyms.
+			</p>
+			<div class="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">
+				{% for att in attempts %}
+				<div class="lg:flex bg-white rounded-lg">
+					<img
+						class="object-cover w-full h-56 rounded-lg lg:w-64"
+						src="https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+						alt=""
+					/>
 
-{% block content %}
-
-<div class="container mt-5">
-
-    <div class="row">
-        <div class="col-lg-4">
-            {{ macros.profile_card(current_user) }}
-        </div>
-
-        <div class="col-lg-8">
-            <div class="row mb-4">
-                <div class="col">
-                    <h2>Your Gyms</h2>
-                    {% for gym in current_user.get_favorite_gyms() %}
-                        {{ macros.gym_card(gym) }}
-                    {% endfor %}
-                    <a type="button" class="btn btn-primary mt-2" href="{{url_for('gym.search')}}">Find Gyms</a>
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col">
-                    <h2>Friends</h2>
-                    {% for friend in current_user.get_friends() %}
-                        {{ macros.friend_card(friend) }}
-                    {% endfor %}
-                    <a href="{{url_for('climber.friends')}}" class="btn btn-primary mt-2">Add Friend</a>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <h2>Attempts</h2>
-
-                    {% for att in attempts %}
-                        {{ macros.attempt_card(att) }}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-
+					<div class="flex flex-col justify-between py-6 lg:mx-6">
+						<a
+							href="{{ url_for('route.view', route_id=att.route.id) }}"
+							class="text-xl font-semibold hover:underline"
+						>
+							{{ att.route.name }}
+						</a>
+						<p class="text-xl text-gray-900 font-semibold hover:underline">
+							{{ att.route.time }}
+						</p>
+						<p class="text-xl font-semibold hover:underline">
+							{{ att.route.grade }}
+						</p>
+						<span
+							class="badge {{ 'badge-success' if att.success else 'badge-danger' }}"
+						>
+							{{ 'Success' if att.success else 'Failed' }}
+						</span>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
 </div>
-
+<!-- ====== Footer Section Start -->
+<footer class="px-4 py-8 dark:bg-gray-800 dark:text-gray-400">
+	<div
+		class="container flex flex-wrap items-center justify-center mx-auto space-y-4 sm:justify-between sm:space-y-0"
+	>
+		<div class="flex flex-row pr-3 space-x-4 sm:space-x-8">
+			<!-- <div
+						class="flex items-center justify-between flex-shrink-0 w-12 h-12 rounded-full dark:bg-violet-400"
+					> -->
+			<!-- <svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							fill="currentColor"
+							class="w-5 h-5 rounded-full dark:text-gray-900"
+						>
+							<path
+								d="M18.266 26.068l7.839-7.854 4.469 4.479c1.859 1.859 1.859 4.875 0 6.734l-1.104 1.104c-1.859 1.865-4.875 1.865-6.734 0zM30.563 2.531l-1.109-1.104c-1.859-1.859-4.875-1.859-6.734 0l-6.719 6.734-6.734-6.734c-1.859-1.859-4.875-1.859-6.734 0l-1.104 1.104c-1.859 1.859-1.859 4.875 0 6.734l6.734 6.734-6.734 6.734c-1.859 1.859-1.859 4.875 0 6.734l1.104 1.104c1.859 1.859 4.875 1.859 6.734 0l21.307-21.307c1.859-1.859 1.859-4.875 0-6.734z"
+							></path>
+						</svg> -->
+			<a href="/" class="text-indigo-600 text-lg">
+				<strong>RouteRater</strong>
+			</a>
+			<!-- </div> -->
+			<ul class="flex flex-wrap items-center space-x-4 sm:space-x-8">
+				<li>
+					<a rel="noopener noreferrer" href="#">Terms of Use</a>
+				</li>
+				<li>
+					<a rel="noopener noreferrer" href="#">Privacy</a>
+				</li>
+			</ul>
+		</div>
+		<ul class="flex flex-wrap pl-3 space-x-4 sm:space-x-8">
+			<li>
+				<a rel="noopener noreferrer" href="#">GitHub</a>
+			</li>
+			<li>
+				<a rel="noopener noreferrer" href="#">Instagram</a>
+			</li>
+			<li>
+				<a rel="noopener noreferrer" href="#">Twitter</a>
+			</li>
+		</ul>
+	</div>
+</footer>
+<!-- ====== Footer Section End -->
 {% endblock %}

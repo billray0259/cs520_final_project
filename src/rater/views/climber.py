@@ -6,6 +6,7 @@ from rater.models import Climber, Route, Attempt, Gym
 
 climber_bp = Blueprint('climber', __name__)
 
+
 @climber_bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -64,16 +65,23 @@ def logout():
     # Redirect to the login page
     return redirect(url_for('climber.login'))
 
+
 @climber_bp.route('/profile')
 def profile():
     attempts = Attempt.find_by_climber(current_user)
-    current_user.get_favorite_gyms = lambda : Gym.get_favorite_gyms(current_user)
-    return render_template('climber/profile.html', current_user=current_user, attempts=attempts)
+    current_user.get_favorite_gyms = lambda: Gym.get_favorite_gyms(
+        current_user)
+    current_user.get_favorite_gyms_size = lambda: Gym.get_favorite_gyms_size(
+        current_user)
+    current_user_attempts = len(attempts)
+    return render_template('climber/profile.html', current_user=current_user, attempts=attempts, current_user_attempts=current_user_attempts)
+
 
 @climber_bp.route('/profile/edit')
 @login_required
 def edit_profile():
     return render_template('climber/edit_profile.html')
+
 
 @climber_bp.route('/profile/friends')
 def friends():
@@ -84,6 +92,7 @@ def friends():
         climbers = Climber.find_many_by_username(name)
 
     return render_template('climber/friends.html', current_user=current_user, climbers=climbers)
+
 
 @climber_bp.route('/profile/add_friend/<user_id>', methods=['GET'])
 @login_required
@@ -99,6 +108,7 @@ def add_friend(user_id):
     flash(f'Added {user.username} to your favorites.')
     return redirect(url_for('climber.friends', current_user=current_user, climbers=[]))
 
+
 @climber_bp.route('/profile/remove_friend/<user_id>', methods=['GET'])
 @login_required
 def remove_friend(user_id):
@@ -111,6 +121,7 @@ def remove_friend(user_id):
     flash(f'Removed {user.username} to your favorites.')
     return redirect(url_for('climber.friends', current_user=current_user, climbers=[]))
 
+
 @climber_bp.route('/route/add/<route_id>', methods=["GET", "POST"])
 @login_required
 def add_attempt(route_id):
@@ -119,12 +130,13 @@ def add_attempt(route_id):
 
     if form.validate_on_submit():
         try:
-            attempt = Attempt(route_id=route.id, climber_id=current_user.id, success=form.success.data, grade=form.grade.data)
+            attempt = Attempt(route_id=route.id, climber_id=current_user.id,
+                              success=form.success.data, grade=form.grade.data)
             attempt.save()
         except ValueError as e:
             errors = [str(e)]
             return render_template('route.view', route_id=route_id, errors=errors)
-        
+
         flash(f'Added attempt for {route.name}.')
         return redirect(url_for('route.view', route_id=route_id))
 
