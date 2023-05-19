@@ -91,12 +91,8 @@ content %}
 						>
 							{{ att.route.name }}
 						</a>
-						<p class="text-xl text-gray-900 font-semibold hover:underline">
-							{{ att.route.time }}
-						</p>
-						<p class="text-xl font-semibold hover:underline">
-							{{ att.route.grade }}
-						</p>
+						<p class="text-xs font-semibold">{{ att.time }}</p>
+						<p class="text-xs font-semibold">{{ att.grade }}</p>
 						<span
 							class="badge {{ 'badge-success' if att.success else 'badge-danger' }}"
 						>
