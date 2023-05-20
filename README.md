@@ -1,7 +1,7 @@
 # RouteRater
 
 
-## TODO
+## TODO (Andrew - Get familiar with all functionalities of the app then document them here)
 
 ./rater/views/route.py
 

@@ -7,9 +7,20 @@
 import unittest
 
 # Most important tests that are essential to the main functionality of the RouteRater app:
+# - Check all relationships specified in the ERD diagram
 # - One account per email address
-# - Invalid grades are not accepted
-# - 
+# - Only strings that represent actual emails (___@___.___, Example: 1234@email.com) are accepted
+# - OPTIONAL: Passwords are secure (Contain at least one special character, one capital letter, and one digit)
+#   - If you decide to implement this, then MUST DISPLAY on account creation page
+# - All accounts and their associated values (email, password, friends, favorite gyms, route attempts, etc.) are properly stored and not forgotten
+#   - Write multiple tests for all of these associated values
+# - Searching gyms produces all possible results for a given search (For example, a search for "gym" brings up gyms 0-13)
+# - Invalid grades for trails are not accepted
+# - Something related to backend page functionality (Try to fix these)
+#   - Example: Searching for gyms does not currently work
+#   - Example: Profile cannot be edited
+#   - Example: Dates and grades are not properly shown
+#   - Should users be allowed to add gyms themselves?
 
 # Script copied from official python unittest website - Delete Later
 class TestStringMethods(unittest.TestCase):
@@ -29,6 +40,19 @@ class TestStringMethods(unittest.TestCase):
         # check that s.split fails when the separator is not a string
         with self.assertRaises(TypeError):
             s.split(2)
+
+# Another example - Delete later
+def add_fish_to_aquarium(fish_list):
+    if len(fish_list) > 10:
+        raise ValueError("A maximum of 10 fish can be added to the aquarium")
+    return {"tank_a": fish_list}
+
+
+class TestAddFishToAquarium(unittest.TestCase):
+    def test_add_fish_to_aquarium_success(self):
+        actual = add_fish_to_aquarium(fish_list=["shark", "tuna"])
+        expected = {"tank_a": ["shark", "tuna"]}
+        self.assertEqual(actual, expected)
 
 if __name__ == '__main__':
     unittest.main()
