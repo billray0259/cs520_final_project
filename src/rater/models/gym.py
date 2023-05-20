@@ -98,3 +98,7 @@ class Gym:
     @staticmethod
     def get_favorite_gyms(climber):
         return [Gym.from_document(gym) for gym in db.gyms.find({'_id': {'$in': climber.gyms}})]
+    
+    @staticmethod
+    def get_favorite_gyms_size(climber):
+        return len([Gym.from_document(gym) for gym in db.gyms.find({'_id': {'$in': climber.gyms}})])

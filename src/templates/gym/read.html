@@ -1,9 +1,6 @@
-{% extends 'base.html' %}
-
-{% from 'gym/_macros.html' import route_card %}
-
-{% block content %}
-<div class="container mt-4">
+{% extends 'base.html' %} {% from 'gym/_macros.html' import route_card %} {%
+block content %}
+<!-- <div class="container mt-4">
 
     <div class="card mb-4">
         <div class="card-header">
@@ -40,5 +37,177 @@
     </div>
     
 
+</div> -->
+
+<div class="bg-gray-900 py-6 sm:py-8 lg:py-12">
+	<div class="mx-auto max-w-screen-xl px-4 md:px-8">
+		<div class="grid gap-8 md:grid-cols-2">
+			<!-- images - start -->
+			<div class="grid gap-4 lg:grid-cols-5">
+				<div
+					class="relative overflow-hidden rounded-lg bg-gray-100 lg:col-span-4"
+				>
+					<img
+						src="{{gym.image_uri}}"
+						loading="lazy"
+						alt="Image"
+						class="h-full w-full object-cover object-center"
+					/>
+				</div>
+			</div>
+			<!-- images - end -->
+
+			<!-- content - start -->
+			<div class="md:py-8">
+				<!-- name - start -->
+				<div class="mb-2 md:mb-3">
+					<span class="mb-0.5 inline-block text-gray-200"
+						>By {{gym.get_owner().username}}</span
+					>
+					<h2 class="text-2xl font-bold text-white lg:text-3xl">
+						{{gym.name}}
+					</h2>
+				</div>
+				<!-- name - end -->
+				<!-- route - start -->
+				<div class="mb-4 md:mb-6">
+					<span
+						class="mb-3 inline-block text-sm font-semibold text-gray-500 md:text-base"
+						>Routes</span
+					>
+
+					<div class="flex flex-wrap gap-2">
+						{% if routes %} {% for route in routes %}
+						<a
+							class="no-underline flex p-2 items-center justify-center rounded-md border text-center text-sm font-semibold text-white transition duration-100 hover:bg-gray-600 hover:text-gray-800 active:bg-gray-200"
+							href="{{ url_for('route.view', route_id=route.id) }}"
+						>
+							{{route.name}}
+							<button
+								type="button"
+								class="ml-2 h-8 w-8 rounded-full bg-gray-500 ring-2 ring-transparent ring-offset-1 transition duration-100 hover:ring-gray-200"
+								style="background-color: {{route.color}};"
+							></button>
+						</a>
+						{% endfor %} {% else %}
+						<p
+							class="flex items-center justify-center bg-white text-center text-sm font-semibold text-white transition duration-100 hover:bg-gray-100 active:bg-gray-200"
+						>
+							No Routes
+						</p>
+						{% endif %}
+					</div>
+				</div>
+				<!-- route - end -->
+
+				<!-- shipping notice - start -->
+				<div class="mb-6 flex items-center gap-2 text-gray-500">
+					<svg
+						fill="white"
+						class="h-6 w-6"
+						version="1.1"
+						id="Layer_1"
+						xmlns="http://www.w3.org/2000/svg"
+						xmlns:xlink="http://www.w3.org/1999/xlink"
+						viewBox="0 0 512 512"
+						xml:space="preserve"
+					>
+						<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+						<g
+							id="SVGRepo_tracerCarrier"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						></g>
+						<g id="SVGRepo_iconCarrier">
+							<g>
+								<g>
+									<path
+										d="M256.001,101.02c-39.388,0-71.432,32.045-71.432,71.432c0,39.388,32.045,71.432,71.432,71.432 c39.388,0,71.432-32.045,71.432-71.432C327.433,133.065,295.389,101.02,256.001,101.02z M256,213.445 c-22.603,0-40.993-18.389-40.993-40.993s18.389-40.993,40.993-40.993s40.993,18.39,40.993,40.993 C296.993,195.056,278.603,213.445,256,213.445z"
+									></path>
+								</g>
+							</g>
+							<g>
+								<g>
+									<path
+										d="M403.703,302.096h-63.715c28.369-43.321,43.249-87.709,43.249-129.644c0-70.159-57.079-127.238-127.238-127.238 s-127.238,57.079-127.238,127.238c0,41.935,14.881,86.323,43.249,129.644h-63.715L0,466.786h512L403.703,302.096z M159.202,172.453c-0.001-53.377,43.423-96.8,96.798-96.8s96.799,43.424,96.799,96.799c0,53.343-28.498,101.699-52.407,132.872 c-0.767,0.999-1.533,1.977-2.3,2.955c-0.781,0.997-1.563,1.981-2.344,2.956c-0.249,0.31-0.498,0.623-0.747,0.931 c-0.777,0.963-1.552,1.914-2.327,2.854c-0.249,0.301-0.497,0.604-0.745,0.903c-0.774,0.935-1.546,1.857-2.315,2.767 c-0.242,0.287-0.485,0.573-0.727,0.858c-0.774,0.911-1.545,1.81-2.313,2.696c-0.229,0.265-0.458,0.528-0.686,0.79 c-0.775,0.889-1.545,1.766-2.311,2.63c-0.216,0.244-0.431,0.485-0.646,0.727c-0.777,0.871-1.549,1.731-2.315,2.574 c-0.19,0.209-0.378,0.415-0.567,0.622c-0.783,0.859-1.563,1.708-2.333,2.537c-0.162,0.174-0.324,0.347-0.485,0.521 c-0.791,0.85-1.578,1.687-2.353,2.505c-0.123,0.129-0.244,0.256-0.365,0.383c-0.808,0.849-1.607,1.684-2.394,2.497 c-0.074,0.077-0.147,0.151-0.222,0.228c-0.827,0.853-1.645,1.69-2.445,2.502c-0.018,0.018-0.036,0.036-0.053,0.054 c-5.135,5.2-9.71,9.54-13.394,12.908C229.93,329.862,159.202,257.301,159.202,172.453z M124.712,332.535h69.609 c22.376,27.534,43.37,45.907,50.029,51.489c0.002,0.002,0.004,0.003,0.006,0.005c0.241,0.202,0.465,0.389,0.668,0.557 c0.014,0.011,0.025,0.021,0.04,0.032c0.396,0.328,0.721,0.596,0.96,0.789c0.019,0.016,0.03,0.025,0.05,0.041 c0.191,0.155,0.329,0.266,0.4,0.323c0.007,0.006,0.024,0.019,0.03,0.024l0.002,0.001h0.001l0.01,0.008l9.486,7.575l9.486-7.575 l0.01-0.008h0.001l0.002-0.001c0.006-0.005,0.022-0.018,0.03-0.024c0.071-0.057,0.209-0.167,0.4-0.323 c0.018-0.015,0.029-0.024,0.05-0.041c0.238-0.194,0.564-0.462,0.96-0.789c0.014-0.011,0.025-0.021,0.04-0.032 c0.203-0.168,0.426-0.355,0.668-0.557c0.002-0.001,0.004-0.003,0.006-0.005c6.66-5.583,27.653-23.955,50.029-51.489h69.609 l68.264,103.811H56.448L124.712,332.535z"
+									></path>
+								</g>
+							</g>
+						</g>
+					</svg>
+					<span class="text-sm text-white">{{gym.address}}</span>
+				</div>
+				<!-- shipping notice - end -->
+
+				<!-- buttons - start -->
+				<div class="flex gap-3">
+					{% if current_user.is_authenticated and (current_user.id ==
+					gym.owner_id or current_user.id in gym.admins) %}
+					<a
+						href="{{ url_for('gym.edit', gym_id=gym.id) }}"
+						class="inline-block flex-1 rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 sm:flex-none md:text-base"
+						>Edit</a
+					>
+					{%endif%} {% if current_user.is_authenticated and (current_user.id ==
+					gym.owner_id or current_user.id in gym.admins) %}
+
+					<a
+						href="{{ url_for('route.create', gym_id=gym.id) }}"
+						class="inline-block rounded-lg bg-gray-200 px-8 py-3 text-center text-sm font-semibold text-gray-500 outline-none ring-indigo-300 transition duration-100 hover:bg-gray-300 focus-visible:ring active:text-gray-700 md:text-base"
+						>Add Route</a
+					>
+					{%endif%}
+				</div>
+				<!-- buttons - end -->
+			</div>
+			<!-- content - end -->
+		</div>
+	</div>
 </div>
+<!-- ====== Footer Section Start -->
+<footer class="px-4 py-8 dark:bg-gray-800 dark:text-gray-400">
+	<div
+		class="container flex flex-wrap items-center justify-center mx-auto space-y-4 sm:justify-between sm:space-y-0"
+	>
+		<div class="flex flex-row pr-3 space-x-4 sm:space-x-8">
+			<!-- <div
+						class="flex items-center justify-between flex-shrink-0 w-12 h-12 rounded-full dark:bg-violet-400"
+					> -->
+			<!-- <svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							fill="currentColor"
+							class="w-5 h-5 rounded-full dark:text-gray-900"
+						>
+							<path
+								d="M18.266 26.068l7.839-7.854 4.469 4.479c1.859 1.859 1.859 4.875 0 6.734l-1.104 1.104c-1.859 1.865-4.875 1.865-6.734 0zM30.563 2.531l-1.109-1.104c-1.859-1.859-4.875-1.859-6.734 0l-6.719 6.734-6.734-6.734c-1.859-1.859-4.875-1.859-6.734 0l-1.104 1.104c-1.859 1.859-1.859 4.875 0 6.734l6.734 6.734-6.734 6.734c-1.859 1.859-1.859 4.875 0 6.734l1.104 1.104c1.859 1.859 4.875 1.859 6.734 0l21.307-21.307c1.859-1.859 1.859-4.875 0-6.734z"
+							></path>
+						</svg> -->
+			<a href="/" class="text-indigo-600 text-lg">
+				<strong>RouteRater</strong>
+			</a>
+			<!-- </div> -->
+			<ul class="flex flex-wrap items-center space-x-4 sm:space-x-8">
+				<li>
+					<a rel="noopener noreferrer" href="#">Terms of Use</a>
+				</li>
+				<li>
+					<a rel="noopener noreferrer" href="#">Privacy</a>
+				</li>
+			</ul>
+		</div>
+		<ul class="flex flex-wrap pl-3 space-x-4 sm:space-x-8">
+			<li>
+				<a rel="noopener noreferrer" href="#">GitHub</a>
+			</li>
+			<li>
+				<a rel="noopener noreferrer" href="#">Instagram</a>
+			</li>
+			<li>
+				<a rel="noopener noreferrer" href="#">Twitter</a>
+			</li>
+		</ul>
+	</div>
+</footer>
+<!-- ====== Footer Section End -->
 {% endblock %}
