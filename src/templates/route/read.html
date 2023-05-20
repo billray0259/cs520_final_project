@@ -1,50 +1,156 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% from 'gym/_macros.html' import route_card %} {%
+from 'climber/_macros.html' import attempt_card %} {% block content %}
+<div class="bg-gray-900 py-6 sm:py-8 lg:py-12">
+	<div class="container">
+		<div class="card my-4">
+			<div
+				class="card-header"
+				style="background-color: {{ route.color }}; color: white; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;"
+			>
+				<h1 class="mb-0">{{ route.name }}</h1>
+			</div>
+			<div class="card-body">
+				<h3 class="card-text">Estimate Grade: {{ estimate }}</h3>
+				<a
+					href="{{ url_for('gym.show', gym_id=route.gym_id) }}"
+					class="btn btn-primary"
+					>View Gym</a
+				>
+			</div>
+		</div>
 
-{% from 'gym/_macros.html' import route_card %}
-{% from 'climber/_macros.html' import attempt_card %}
+		{% if current_user.is_authenticated %} {% if current_user.id == gym.owner_id
+		or current_user.id in gym.admins %}
+		<div class="col-md-4">
+			<div class="card my-4">
+				<div class="card-header">
+					<h3>Admin Controls</h3>
+				</div>
+				<div class="card-body text-center">
+					<!-- Display the QR code -->
+					<img
+						src="data:image/png;base64,{{ qr_code_b64 }}"
+						alt="QR Code"
+						style="width: 200px; height: 200px"
+					/>
 
-{% block content %}
-<div class="container">
-    <div class="card my-4">
-        <div class="card-header" style="background-color: {{ route.color }}; color: white; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
-            <h1 class="mb-0">{{ route.name }}</h1>
-        </div>
-        <div class="card-body">
-            <h3 class="card-text">Estimate Grade: {{ estimate }}</h3>
-            <a href="{{ url_for('gym.show', gym_id=route.gym_id) }}" class="btn btn-primary">View Gym</a>
-        </div>
-    </div>
+					<!-- Provide a download link -->
+					<div class="mt-2">
+						<a
+							href="data:image/png;base64,{{ qr_code_b64 }}"
+							download="qrcode.png"
+							class="btn btn-primary"
+							>Download QR Code</a
+						>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endif %}
 
-    {% if current_user.is_authenticated %}
-        {% if current_user.id == gym.owner_id or current_user.id in gym.admins %}
-            <div class="col-md-4">
-                <div class="card my-4">
-                    <div class="card-header">
-                        <h3>Admin Controls</h3>
-                    </div>
-                    <div class="card-body text-center">
-                        <!-- Display the QR code -->
-                        <img src="data:image/png;base64,{{ qr_code_b64 }}" alt="QR Code" style="width: 200px; height: 200px;">
+		<!-- <div class="row">
+		<div class="col-md-8">
+			<a
+				href="{{ url_for('climber.add_attempt', route_id=route.id) }}"
+				class="btn btn-primary mb-4"
+				>Add Attempt</a
+			>
+			{% for att in climber_attempts %}
+			<div class="col-sm-12 col-md-6 col-lg-4 mb-4">
+				{{ attempt_card(att) }}
+			</div>
+			{% endfor %}
+		</div>
+	</div> -->
+		<section class="bg-gray-900">
+			<div class="container px-6 py-10 mx-auto">
+				<h1 class="text-2xl font-semibold capitalize lg:text-3xl text-white">
+					Attempts
+				</h1>
+				<p class="text-lg text-gray-600 font-semibold">
+					Take a look at all the attempts for this route.
+				</p>
+				<a
+					href="{{ url_for('climber.add_attempt', route_id=route.id) }}"
+					class="btn btn-primary mt-4"
+					>Add Attempt</a
+				>
+				<div class="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">
+					{% for att in climber_attempts %}
+					<div class="lg:flex bg-white rounded-lg">
+						<img
+							class="object-cover w-full h-56 rounded-lg lg:w-64"
+							src="https://images.unsplash.com/photo-1515378960530-7c0da6231fb1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+							alt=""
+						/>
 
-                        <!-- Provide a download link -->
-                        <div class="mt-2">
-                            <a href="data:image/png;base64,{{ qr_code_b64 }}" download="qrcode.png" class="btn btn-primary">Download QR Code</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endif %}
-        
-        <div class="row">
-            <div class="col-md-8">
-                <a href="{{ url_for('climber.add_attempt', route_id=route.id) }}" class="btn btn-primary mb-4">Add Attempt</a>
-                {% for att in climber_attempts %}
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
-                        {{ attempt_card(att) }}
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
+						<div class="flex flex-col justify-between py-6 lg:mx-6 text-black">
+							<a
+								href="{{ url_for('route.view', route_id=att.route.id) }}"
+								class="text-xl font-semibold hover:underline"
+							>
+								{{ att.route.name }}
+							</a>
+							<p class="text-xs font-semibold">{{ att.time }}</p>
+							<p class="text-xs font-semibold">{{ att.grade }}</p>
+							<span
+								class="badge {{ 'badge-success' if att.success else 'badge-danger' }}"
+							>
+								{{ 'Success' if att.success else 'Failed' }}
+							</span>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+		{% endif %}
+	</div>
 </div>
+<!-- ====== Footer Section Start -->
+<footer class="px-4 py-8 dark:bg-gray-800 dark:text-gray-400">
+	<div
+		class="container flex flex-wrap items-center justify-center mx-auto space-y-4 sm:justify-between sm:space-y-0"
+	>
+		<div class="flex flex-row pr-3 space-x-4 sm:space-x-8">
+			<!-- <div
+						class="flex items-center justify-between flex-shrink-0 w-12 h-12 rounded-full dark:bg-violet-400"
+					> -->
+			<!-- <svg
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 32 32"
+							fill="currentColor"
+							class="w-5 h-5 rounded-full dark:text-gray-900"
+						>
+							<path
+								d="M18.266 26.068l7.839-7.854 4.469 4.479c1.859 1.859 1.859 4.875 0 6.734l-1.104 1.104c-1.859 1.865-4.875 1.865-6.734 0zM30.563 2.531l-1.109-1.104c-1.859-1.859-4.875-1.859-6.734 0l-6.719 6.734-6.734-6.734c-1.859-1.859-4.875-1.859-6.734 0l-1.104 1.104c-1.859 1.859-1.859 4.875 0 6.734l6.734 6.734-6.734 6.734c-1.859 1.859-1.859 4.875 0 6.734l1.104 1.104c1.859 1.859 4.875 1.859 6.734 0l21.307-21.307c1.859-1.859 1.859-4.875 0-6.734z"
+							></path>
+						</svg> -->
+			<a href="/" class="text-indigo-600 text-lg">
+				<strong>RouteRater</strong>
+			</a>
+			<!-- </div> -->
+			<ul class="flex flex-wrap items-center space-x-4 sm:space-x-8">
+				<li>
+					<a rel="noopener noreferrer" href="#">Terms of Use</a>
+				</li>
+				<li>
+					<a rel="noopener noreferrer" href="#">Privacy</a>
+				</li>
+			</ul>
+		</div>
+		<ul class="flex flex-wrap pl-3 space-x-4 sm:space-x-8">
+			<li>
+				<a rel="noopener noreferrer" href="#">GitHub</a>
+			</li>
+			<li>
+				<a rel="noopener noreferrer" href="#">Instagram</a>
+			</li>
+			<li>
+				<a rel="noopener noreferrer" href="#">Twitter</a>
+			</li>
+		</ul>
+	</div>
+</footer>
+<!-- ====== Footer Section End -->
 {% endblock %}
