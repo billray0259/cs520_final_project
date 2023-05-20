@@ -1,22 +1,6 @@
 # RouteRater
 
 
-## TODO (Andrew - Get familiar with all functionalities of the app then document them here)
-
-./rater/views/route.py
-
-./rater/views/grade_estimate.py
-
-./rater/views/comment.py
-./rater/views/attempt.py
-./templates/gym/edit.html
-./templates/climber/profile.html
-./templates/climber/edit_profile.html
-./templates/route/read.html
-./templates/route/edit.html
-./templates/route/create.html
-
-
 ## Setup
 
 Clone the repository
@@ -52,3 +36,19 @@ In addition to improving the accuracy of difficulty ratings, the app will enable
 
 To use the app, simply scan the QR code at the bottom of the climbing route and rate the difficulty. Your profile will keep track of your progress and the app will update the route's difficulty rating based on the collective ratings of all climbers.
 
+## TODO (Andrew - Get familiar with all functionalities of the app then document them here)
+
+(Explain how the RouteRater app follows the MVC pattern)
+
+./rater/views/route.py
+
+./rater/views/grade_estimate.py
+
+./rater/views/comment.py
+./rater/views/attempt.py
+./templates/gym/edit.html
+./templates/climber/profile.html
+./templates/climber/edit_profile.html
+./templates/route/read.html
+./templates/route/edit.html
+./templates/route/create.html
