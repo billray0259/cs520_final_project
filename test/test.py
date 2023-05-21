@@ -5,6 +5,10 @@
 # https://www.dataquest.io/blog/unit-tests-python/
 
 import unittest
+from rater.models import Climber
+from bson.objectid import ObjectId
+# import sys
+# sys.path.insert(0, 'src/rater/models/climber.py')
 
 # Most important tests that are essential to the main functionality of the RouteRater app:
 # - Check all relationships specified in the ERD diagram
@@ -22,9 +26,19 @@ import unittest
 #   - Example: Dates and grades are not properly shown
 #   - Should users be allowed to add gyms themselves?
 
-# class TestRouteRater(unittest.TestCase):
+class TestRouteRater(unittest.TestCase):
+    # Test 1: Two climbers with different usernames cannot have the same email address
+    def test_email(self):
+        climber1 = Climber('1234@email.com', 'asdf', ObjectId(), None, [], [])
+        climber1.set_password('password')
+        climber2 = Climber('1234@email.com', 'ghjk', ObjectId(), None, [], [])
+        climber2.set_password('password')
 
-# Test 1: Two climbers with different usernames cannot have the same email address
+        with self.assertRaises(ValueError):
+            climber1.save()
+            climber2.save()
+
+
 
 # Test 2: Two climbers with different email addresses cannot have the same username
 
@@ -54,37 +68,39 @@ import unittest
 
 # Test 15: Route grade is recalculated each time a new rating is given
 
-# Script copied from official python unittest website - Delete Later
-class TestStringMethods(unittest.TestCase):
+# Test 16: When a new friend is added, it is stored in the user's profile
 
-    def test_upper(self):
-        self.assertEqual('foo'.upper(), 'FOO')
-        self.assertNotEqual('foo'.upper(), 'FOo')
+# # Script copied from official python unittest website - Delete Later
+# class TestStringMethods(unittest.TestCase):
 
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
-        # self.assertTrue('Foo'.isupper()) # Expected to fail
+#     def test_upper(self):
+#         self.assertEqual('foo'.upper(), 'FOO')
+#         self.assertNotEqual('foo'.upper(), 'FOo')
 
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
+#     def test_isupper(self):
+#         self.assertTrue('FOO'.isupper())
+#         self.assertFalse('Foo'.isupper())
+#         # self.assertTrue('Foo'.isupper()) # Expected to fail
 
-# Another example - Delete later
-def add_fish_to_aquarium(fish_list):
-    if len(fish_list) > 10:
-        raise ValueError("A maximum of 10 fish can be added to the aquarium")
-    return {"tank_a": fish_list}
+#     def test_split(self):
+#         s = 'hello world'
+#         self.assertEqual(s.split(), ['hello', 'world'])
+#         # check that s.split fails when the separator is not a string
+#         with self.assertRaises(TypeError):
+#             s.split(2)
+
+# # Another example - Delete later
+# def add_fish_to_aquarium(fish_list):
+#     if len(fish_list) > 10:
+#         raise ValueError("A maximum of 10 fish can be added to the aquarium")
+#     return {"tank_a": fish_list}
 
 
-class TestAddFishToAquarium(unittest.TestCase):
-    def test_add_fish_to_aquarium_success(self):
-        actual = add_fish_to_aquarium(fish_list=["shark", "tuna"])
-        expected = {"tank_a": ["shark", "tuna"]}
-        self.assertEqual(actual, expected)
+# class TestAddFishToAquarium(unittest.TestCase):
+#     def test_add_fish_to_aquarium_success(self):
+#         actual = add_fish_to_aquarium(fish_list=["shark", "tuna"])
+#         expected = {"tank_a": ["shark", "tuna"]}
+#         self.assertEqual(actual, expected)
 
 if __name__ == '__main__':
     unittest.main()
