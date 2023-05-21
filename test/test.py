@@ -5,7 +5,7 @@
 # https://www.dataquest.io/blog/unit-tests-python/
 
 import unittest
-from rater.models import Climber
+from rater.models import Climber, Gym
 from bson.objectid import ObjectId
 # import sys
 # sys.path.insert(0, 'src/rater/models/climber.py')
@@ -76,7 +76,8 @@ class TestRouteRater(unittest.TestCase):
         climber1.save()
         climber2.save()
 
-# Test 4: Once a climber adds a favorite gym, it is stored in their favorite gyms list
+# Test 4: Once a climber adds a favorite gym, it is stored in their favorite gyms 
+
 
 # Test 5: Same as test 4 but with unfavoriting gyms
 
