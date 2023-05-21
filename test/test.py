@@ -10,6 +10,19 @@ from bson.objectid import ObjectId
 # import sys
 # sys.path.insert(0, 'src/rater/models/climber.py')
 
+
+import string
+import random
+
+def gen_username():
+    return ''.join(random.choices(string.ascii_lowercase +
+                             string.digits, k=10))
+
+# Method adapted from https://www.geeksforgeeks.org/python-generate-random-string-of-given-length/
+def gen_email():
+    return ''.join(random.choices(string.ascii_lowercase +
+                             string.digits, k=7)) + "@email.com"
+
 # Most important tests that are essential to the main functionality of the RouteRater app:
 # - Check all relationships specified in the ERD diagram
 # - One account per email address (Y)
@@ -29,9 +42,10 @@ from bson.objectid import ObjectId
 class TestRouteRater(unittest.TestCase):
     # Test 1: Two climbers with different usernames cannot have the same email address
     def test_email(self):
-        climber1 = Climber('1234@email.com', 'asdf', ObjectId(), None, [], [])
+        fixed_email = gen_email()
+        climber1 = Climber(fixed_email, gen_username(), ObjectId(), None, [], [])
         climber1.set_password('password')
-        climber2 = Climber('1234@email.com', 'ghjk', ObjectId(), None, [], [])
+        climber2 = Climber(fixed_email, gen_username(), ObjectId(), None, [], [])
         climber2.set_password('password')
 
         with self.assertRaises(ValueError):
@@ -41,17 +55,26 @@ class TestRouteRater(unittest.TestCase):
 
 # Test 2: Two climbers with different email addresses cannot have the same username
     def test_username(self):
-        climber1 = Climber('1234@email.com', 'asdf', ObjectId(), None, [], [])
+        fixed_username = gen_username()
+        climber1 = Climber(gen_email(), fixed_username, ObjectId(), None, [], [])
         climber1.set_password('password')
-        climber2 = Climber('5678@email.com', 'asdf', ObjectId(), None, [], [])
+        climber2 = Climber(gen_email(), fixed_username, ObjectId(), None, [], [])
         climber2.set_password('password')
 
         with self.assertRaises(ValueError):
             climber1.save()
             climber2.save()
 
-# Test 3: Two climbers with different email addresses and usernames can exist and DO NOT have the same I
+# Test 3: Two climbers with different email addresses and usernames can exist and DO NOT have the same ID
+    def test_diffemailanduser(self):
+        climber1 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber1.set_password('password')
+        climber2 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber2.set_password('password')
 
+        # Should not return ValueError
+        climber1.save()
+        climber2.save()
 
 # Test 4: Once a climber adds a favorite gym, it is stored in their favorite gyms list
 
