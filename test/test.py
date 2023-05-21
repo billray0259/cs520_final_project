@@ -40,7 +40,19 @@ import unittest
 
 # Test 8: When creating user profile, "password" and "confirm password" inputs must match
 
-# Test 9: 
+# Test 9: Search functionality? (Needs to be fixed as of now)
+
+# Test 10: The model must not accept scores greater than 10
+
+# Test 11: The model must not accept scores less than 0
+
+# Test 12: The model must not accept non-integer values (Ex: decimal values)
+
+# Test 13: The model correctly classifies attempts as successful or failed based on user input
+
+# Test 14: The overall grade for a route (assert)Equals the average of all users' inputs for that route
+
+# Test 15: Route grade is recalculated each time a new rating is given
 
 # Script copied from official python unittest website - Delete Later
 class TestStringMethods(unittest.TestCase):
