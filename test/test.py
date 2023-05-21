@@ -39,10 +39,19 @@ class TestRouteRater(unittest.TestCase):
             climber2.save()
 
 
-
 # Test 2: Two climbers with different email addresses cannot have the same username
+    def test_username(self):
+        climber1 = Climber('1234@email.com', 'asdf', ObjectId(), None, [], [])
+        climber1.set_password('password')
+        climber2 = Climber('5678@email.com', 'asdf', ObjectId(), None, [], [])
+        climber2.set_password('password')
 
-# Test 3: Two climbers with different email addresses and usernames can exist and DO NOT have the same ID
+        with self.assertRaises(ValueError):
+            climber1.save()
+            climber2.save()
+
+# Test 3: Two climbers with different email addresses and usernames can exist and DO NOT have the same I
+
 
 # Test 4: Once a climber adds a favorite gym, it is stored in their favorite gyms list
 
