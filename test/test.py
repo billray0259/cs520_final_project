@@ -8,7 +8,7 @@ import unittest
 
 # Most important tests that are essential to the main functionality of the RouteRater app:
 # - Check all relationships specified in the ERD diagram
-# - One account per email address
+# - One account per email address (Y)
 # - Only strings that represent actual emails (___@___.___, Example: 1234@email.com) are accepted
 # - OPTIONAL: Passwords are secure (Contain at least one special character, one capital letter, and one digit)
 #   - If you decide to implement this, then MUST DISPLAY on account creation page
@@ -21,6 +21,26 @@ import unittest
 #   - Example: Profile cannot be edited
 #   - Example: Dates and grades are not properly shown
 #   - Should users be allowed to add gyms themselves?
+
+# class TestRouteRater(unittest.TestCase):
+
+# Test 1: Two climbers with different usernames cannot have the same email address
+
+# Test 2: Two climbers with different email addresses cannot have the same username
+
+# Test 3: Two climbers with different email addresses and usernames can exist and DO NOT have the same ID
+
+# Test 4: Once a climber adds a favorite gym, it is stored in their favorite gyms list
+
+# Test 5: Same as test 4 but with unfavoriting gyms
+
+# Test 6: Each user must have an email address, username, and password
+
+# Test 7: Email addresses must be valid (If this doesn't involve internal Flask libraries)
+
+# Test 8: When creating user profile, "password" and "confirm password" inputs must match
+
+# Test 9: 
 
 # Script copied from official python unittest website - Delete Later
 class TestStringMethods(unittest.TestCase):
