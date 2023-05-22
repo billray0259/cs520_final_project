@@ -38,8 +38,12 @@ def search():
 
     # Find gyms by name or by ID
     if name:
-        gym = Gym.find_by_name(name)
-        gyms = [gym] if gym is not None else None
+        gyms = Gym.find_all()
+        gyms = [
+            gym
+            for gym in gyms
+            if name.lower() in gym.name.lower()
+        ]
     elif gym_id:
         gym = Gym.find_by_id(gym_id)
         if gym is not None:
@@ -140,7 +144,7 @@ def edit(gym_id):
 
 
 # gym.show route
-@gym_bp.route('/gym/<gym_id>', methods=['GET'])
+@gym_bp.route('/gym-page/<gym_id>', methods=['GET'])
 def show(gym_id):
     # Retrieve the gym
     gym = Gym.find_by_id(gym_id)
