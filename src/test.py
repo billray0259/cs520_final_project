@@ -1,11 +1,6 @@
-# Implement testing method utilizing the strategies listed in the below links:
-# https://docs.python.org/3/library/unittest.html
-# https://machinelearningmastery.com/a-gentle-introduction-to-unit-testing-in-python/
-# https://www.digitalocean.com/community/tutorials/how-to-use-unittest-to-write-a-test-case-for-a-function-in-python
-# https://www.dataquest.io/blog/unit-tests-python/
-
 import unittest
 from rater.models import Climber, Gym, Attempt, Route
+from rater import app
 from bson.objectid import ObjectId
 from statistics import mean
 
@@ -14,6 +9,7 @@ from flask_login import current_user, login_required
 # import sys
 # sys.path.insert(0, 'src/rater/models/climber.py')
 
+db = app.config['MONGO']
 
 import string
 import random
@@ -35,31 +31,31 @@ def gen_route_name():
     return "Sample Route " + ''.join(random.choices(string.ascii_lowercase +
                              string.digits, k=5))
 
-# Method taken from views/route.py to be tested
-def delete(route_id):
-    try:
-        # Convert route_id to ObjectId
-        route_id = ObjectId(route_id)
+# # Method taken from views/route.py to be tested
+# def delete(route_id):
+#     try:
+#         # Convert route_id to ObjectId
+#         route_id = ObjectId(route_id)
 
-        # Fetch the route
-        route = Route.objects.get(id=route_id)
+#         # Fetch the route
+#         route = Route.objects.get(id=route_id)
 
-        # Check if current user is the owner or admin of the gym
-        if current_user.id != route.gym.owner_id and current_user.id not in route.gym.admins:
-            flash('You do not have permission to delete this route.', 'danger')
-            return redirect(url_for('route.view', route_id=str(route_id)))
+#         # Check if current user is the owner or admin of the gym
+#         if current_user.id != route.gym.owner_id and current_user.id not in route.gym.admins:
+#             flash('You do not have permission to delete this route.', 'danger')
+#             return redirect(url_for('route.view', route_id=str(route_id)))
 
-        # Delete the route
-        route.delete()
-    except ValueError as e:
-        flash('Invalid route id.', 'danger')
-        return redirect(url_for('route.index'))
-    except DoesNotExist as e:
-        flash('Route does not exist.', 'danger')
-        return redirect(url_for('route.index'))
+#         # Delete the route
+#         route.delete()
+#     except ValueError as e:
+#         flash('Invalid route id.', 'danger')
+#         return redirect(url_for('route.index'))
+#     except DoesNotExist as e:
+#         flash('Route does not exist.', 'danger')
+#         return redirect(url_for('route.index'))
 
-    flash('Route deleted successfully.', 'success')
-    return redirect(url_for('gym.show', gym_id=str(route.gym.id)))
+#     flash('Route deleted successfully.', 'success')
+#     return redirect(url_for('gym.show', gym_id=str(route.gym.id)))
 
 # Most important tests that are essential to the main functionality of the RouteRater app:
 # - Check all relationships specified in the ERD diagram
@@ -76,8 +72,6 @@ def delete(route_id):
 #   - Should users be allowed to add gyms themselves?
 
 class TestRouteRater(unittest.TestCase):
-
-# *** MODEL TESTS ***
 
 # # Test 1: Two climbers with different usernames cannot have the same email address
 #     def test_email(self):
@@ -105,17 +99,25 @@ class TestRouteRater(unittest.TestCase):
 #             climber2.save()
 
 # # Test 3: Two climbers with different email addresses and usernames can exist and DO NOT have the same ID
-    # def test_diffemailanduser(self):
-    #     climber1 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
-    #     climber1.set_password('password')
-    #     climber2 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
-    #     climber2.set_password('password')
+#     def test_diffemailanduser(self):
+#         climber1 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+#         climber1.set_password('password')
+#         climber2 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+#         climber2.set_password('password')
 
-    #     # Should not return ValueError
-    #     climber1.save()
-    #     climber2.save()
+#         # Should not return ValueError
+#         climber1.save()
+#         climber2.save()
 
-    #     self.assertNotEqual(climber1.id, climber2.id)
+#         self.assertNotEqual(climber1.id, climber2.id)
+
+# Test 3: Two climbers with different email addresses and usernames can exist and DO NOT have the same ID
+    def test_invalidemail(self):
+        climber1 = Climber(gen_username(), gen_username(), ObjectId(), None, [], [])
+        climber1.set_password('password')
+
+        # Should not return ValueError
+        climber1.save()
 
 # Test 4: Once a climber adds a favorite gym, it is stored in their favorite gyms (add gym method)
     def test_addgym(self):
@@ -169,11 +171,8 @@ class TestRouteRater(unittest.TestCase):
         climber1.remove_friend(climber1s_enemy)
         self.assertFalse(climber1s_enemy.id in climber1.friends)
 
-
-# Test 8: When creating user profile, "password" and "confirm password" inputs must match
-# (CHECKED IN FORMS)
-
 # Test 9: Search functionality? (Needs to be fixed as of now)
+
 
 # Test 10: The model must not accept scores greater than 10
 # (CHECKED IN FORMS)

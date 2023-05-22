@@ -36,7 +36,11 @@ In addition to improving the accuracy of difficulty ratings, the app will enable
 
 To use the app, simply scan the QR code at the bottom of the climbing route and rate the difficulty. Your profile will keep track of your progress and the app will update the route's difficulty rating based on the collective ratings of all climbers.
 
-## TODO (Andrew - Get familiar with all functionalities of the app then document them here)
+## Directions for using RouteRater
+
+In order to create an account, click "Sign Up" on the home page and enter in your email, username, and password.
+
+
 
 (Explain how the RouteRater app follows the MVC pattern)
 
