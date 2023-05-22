@@ -72,13 +72,16 @@ class Route:
         return [GradeEstimate.from_document(doc) for doc in db.grade_estimates.find({'route': self.id})]
 
     def get_num_attempts(self):
-        return db.attempts.find({'route': self.id}).count()
+        #return db.attempts.find({'route_id': self.id}).count()
+        return db.attempts.count_documents({'route_id': self.id})
 
     def get_num_comments(self):
-        return db.comments.find({'route': self.id}).count()
+        #return db.comments.find({'route': self.id}).count()
+        return db.comments.count_documents({'route_id': self.id})
 
     def get_num_grade_estimates(self):
-        return db.grade_estimates.find({'route': self.id}).count()
+        #return db.grade_estimates.find({'route': self.id}).count()
+        return db.grade_estimates.count_documents({'route_id': self.id})
 
     def get_grade_estimate(self):
         attempts =  list(db.attempts.find({'route_id': self.id, 'grade': {"$exists": True}}, {"grade":1, "_id":0}))
