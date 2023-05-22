@@ -61,36 +61,3 @@ def view(route_id):
 
     return render_template('route/read.html', route=route, current_user=current_user, climber_attempts=climber_attempts, estimate=estimate, qr_code_b64=qr_code_b64, gym=gym)
 
-
-
-# TODO delete route functionality. Afraid to implement because unsure if deleting routes will get the databse in an inconsistent state.
-# TODO before deleting routes, we should have tests to ensure that the database is in a consistent state after deleting routes.
-
-#  <!-- <a href="{{ url_for('route.delete', route_id=route.id) }}" class="btn btn-danger mt-2">Delete Route</a> -->
-
-# @route_bp.route('/route/delete/<route_id>', methods=['POST'])
-# @login_required
-# def delete(route_id):
-#     try:
-#         # Convert route_id to ObjectId
-#         route_id = ObjectId(route_id)
-
-#         # Fetch the route
-#         route = Route.objects.get(id=route_id)
-
-#         # Check if current user is the owner or admin of the gym
-#         if current_user.id != route.gym.owner_id and current_user.id not in route.gym.admins:
-#             flash('You do not have permission to delete this route.', 'danger')
-#             return redirect(url_for('route.view', route_id=str(route_id)))
-
-#         # Delete the route
-#         route.delete()
-#     except ValueError as e:
-#         flash('Invalid route id.', 'danger')
-#         return redirect(url_for('route.index'))
-#     except DoesNotExist as e:
-#         flash('Route does not exist.', 'danger')
-#         return redirect(url_for('route.index'))
-
-#     flash('Route deleted successfully.', 'success')
-#     return redirect(url_for('gym.show', gym_id=str(route.gym.id)))
