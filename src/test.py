@@ -8,6 +8,9 @@ import unittest
 from rater.models import Climber, Gym, Attempt, Route
 from bson.objectid import ObjectId
 from statistics import mean
+
+from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask_login import current_user, login_required
 # import sys
 # sys.path.insert(0, 'src/rater/models/climber.py')
 
@@ -31,6 +34,32 @@ def gen_gym_name():
 def gen_route_name():
     return "Sample Route " + ''.join(random.choices(string.ascii_lowercase +
                              string.digits, k=5))
+
+# Method taken from views/route.py to be tested
+def delete(route_id):
+    try:
+        # Convert route_id to ObjectId
+        route_id = ObjectId(route_id)
+
+        # Fetch the route
+        route = Route.objects.get(id=route_id)
+
+        # Check if current user is the owner or admin of the gym
+        if current_user.id != route.gym.owner_id and current_user.id not in route.gym.admins:
+            flash('You do not have permission to delete this route.', 'danger')
+            return redirect(url_for('route.view', route_id=str(route_id)))
+
+        # Delete the route
+        route.delete()
+    except ValueError as e:
+        flash('Invalid route id.', 'danger')
+        return redirect(url_for('route.index'))
+    except DoesNotExist as e:
+        flash('Route does not exist.', 'danger')
+        return redirect(url_for('route.index'))
+
+    flash('Route deleted successfully.', 'success')
+    return redirect(url_for('gym.show', gym_id=str(route.gym.id)))
 
 # Most important tests that are essential to the main functionality of the RouteRater app:
 # - Check all relationships specified in the ERD diagram
@@ -160,7 +189,7 @@ class TestRouteRater(unittest.TestCase):
 
 # Test 14: The overall grade for a route (assert)Equals the average of all users' inputs for that route
     def test_routegrade(self):
-        gym1 = Gym(gen_gym_name(), "120 East St, Hadley, MA", ObjectId(), None, None, None, None)
+        gym1 = Gym(gen_gym_name(), "120 East St, Hadley, MA", "https://www.lafitness.com", ObjectId(), None, ObjectId(), None)
         gym1.save()
 
         grade_testlist = [7, 3, 10, 5]
@@ -188,7 +217,7 @@ class TestRouteRater(unittest.TestCase):
 
 # Test 15: Route grade is recalculated each time a new rating is given
     def test_gradechange(self):
-        gym1 = Gym(gen_gym_name(), "120 East St, Hadley, MA", ObjectId(), None, None, None, None)
+        gym1 = Gym(gen_gym_name(), "120 East St, Hadley, MA", "https://www.lafitness.com", ObjectId(), None, ObjectId(), None)
         gym1.save()
 
         grade_testlist = [7, 3, 10, 5]
@@ -213,14 +242,17 @@ class TestRouteRater(unittest.TestCase):
         attempt4.save()
 
 
-
         #self.assertEqual(len(grade_testlist), route1.get_num_attempts())
         #self.assertEqual(len(grade_testlist), route1.get_num_grade_estimates())
         self.assertNotEqual(temp_mean, route1.get_grade_estimate())
 
 # Test 16: When a new friend is added, it is stored in the user's profile (Is this necessary?)
 
-# ***VIEW TESTS***
+# *** VIEW TESTS ***
+
+# Test: Searching for gyms produces at least one correct result if word is present in available gyms
+
+# Test: 
 
 
 
