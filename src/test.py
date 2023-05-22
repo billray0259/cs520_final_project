@@ -1,3 +1,17 @@
+# Implement testing method utilizing the strategies listed in the below links:
+# https://docs.python.org/3/library/unittest.html
+# https://machinelearningmastery.com/a-gentle-introduction-to-unit-testing-in-python/
+# https://www.digitalocean.com/community/tutorials/how-to-use-unittest-to-write-a-test-case-for-a-function-in-python
+# https://www.dataquest.io/blog/unit-tests-python/
+
+
+from pymongo import MongoClient
+from rater import app, config
+test_db_name = f'{config["mongodb_database"]}_test'
+app.config['MONGO_URI'] = f'mongodb://{config["mongodb_ip_address"]}:{config["mongodb_port"]}/{test_db_name}'
+mongo = MongoClient(app.config['MONGO_URI'])
+app.config['MONGO'] = mongo[f'{test_db_name}']
+
 import unittest
 from rater.models import Climber, Gym, Attempt, Route
 from rater import app
@@ -221,7 +235,7 @@ class TestRouteRater(unittest.TestCase):
 
         grade_testlist = [7, 3, 10, 5]
         fixed_routeid = ObjectId()
-        route1 = Route(gen_route_name, "Red", gym1.id, None)
+        route1 = Route(gen_route_name(), "Red", gym1.id, None)
         route1.save()
 
         climber1 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
