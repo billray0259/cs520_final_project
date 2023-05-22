@@ -3,7 +3,7 @@ from flask_login import LoginManager, current_user
 
 from rater import app
 from rater.models import Climber
-from rater.views import climber_bp, gym_bp, route_bp, landing_bp
+from rater.controllers import climber_bp, gym_bp, route_bp, landing_bp
 
 
 # configure the login manager
