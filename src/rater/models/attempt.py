@@ -38,11 +38,12 @@ class Attempt:
     @staticmethod
     def from_document(doc):
         return Attempt(
-            doc['success'],
-            doc['route_id'],
-            doc['climber_id'],
-            doc['time'],
-            doc['_id'],
+            success=doc['success'],
+            route_id=doc['route_id'],
+            climber_id=doc['climber_id'],
+            grade=doc['grade'],
+            time=doc['time'],
+            _id=doc['_id'],
         )
 
 
