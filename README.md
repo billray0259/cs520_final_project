@@ -40,7 +40,7 @@ To use the app, simply scan the QR code at the bottom of the climbing route and 
 
 In order to create a RouteRater account, click "Sign Up" on the home page and enter in your email, username, and password.
 
-# For Climbers
+### For Climbers
 
 On the "Gyms" page, there are many different gyms that climbers can add as their favorites. To add a certain gym as a favorite, click the "Add to favorites" button associated with the gym. All gyms that a climber has added as favorites will appear at the top of the "Gyms" page. To unfavorite a gym, click the "Favorited" button associated with the gym. In addition, each gym listed in the "Gyms" page has a link to its website. A climber can also search for gyms by utilizing the search bar on the top of the page, with the search results listing all gyms that have not yet been added as one of the climber's favorites.
 
@@ -64,7 +64,7 @@ The "Profile" page for each user will list the number of friends they added, the
 
 ![user profile](readme_screenshots/profile.png)
 
-# For Gym Owners
+### For Gym Owners
 
 Owners of certain gyms also have RouteRater accounts but, unlike regular users (Climbers), are able to add new routes to the gym(s) that they own. In order to add a new route, owners need to specify the route's name, the color it will be assigned, and the ID of its gym. After the new route is added, a QR code that links to the route's page will be generated.
 

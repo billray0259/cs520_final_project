@@ -76,6 +76,7 @@ Python, Flask, and Flask-Login were chosen for their simplicity, readability, an
 ### Evaluating Functional Requirements
 
 <!-- Josh: We might want to add where and how we plan to automate these things. I think have fewer quality automated tests might be better than many non-automated tests.  -->
+<!-- Andrew: Tests that were actually implemented differs from the list below - Check test.py for these tests-->
 1. User authentication and registration:
 * Test that users can successfully register with valid email, username, and password.
 * Test that users cannot register with invalid or duplicate email and username.
