@@ -79,7 +79,6 @@ class Climber(UserMixin):
     def get_friends_size(self):
         return len([f for f in db.climbers.find({'_id': {'$in': self.friends}})])
 
-    
     def is_friend(self, user):
         return user.id in self.friends
 

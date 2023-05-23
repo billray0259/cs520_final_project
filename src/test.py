@@ -219,9 +219,80 @@ class TestRouteRater(unittest.TestCase):
         self.assertTrue("https://www.24hourfitness.com/" in all_gym_websites)
     
     # Test 11: User can add and store friends
+    def test_friends(self):
+        climber1 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber1.set_password('password')
+        climber2 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber2.set_password('password')
+        climber3 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber3.set_password('password')
+        climber4 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber4.set_password('password')
+        climber5 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber5.set_password('password')
+
+        climber1.add_friend(climber2)
+        climber1.add_friend(climber3)
+        climber1.add_friend(climber4)
+        climber1.add_friend(climber5)
+
+        self.assertEqual(len(climber1.friends), 4)
+        self.assertEqual(len(climber2.friends), 0)
+        self.assertEqual(len(climber3.friends), 0)
+        self.assertEqual(len(climber4.friends), 0)
+        self.assertEqual(len(climber5.friends), 0)
+
+        self.assertTrue(climber1.is_friend(climber2))
+        self.assertTrue(climber1.is_friend(climber3))
+        self.assertTrue(climber1.is_friend(climber4))
+        self.assertTrue(climber1.is_friend(climber5))
+
+        temp_friends_size = len(climber1.friends)
+        temp_climber2_friend = climber1.is_friend(climber2)
+        climber1.remove_friend(climber2)
+
+        self.assertNotEqual(temp_friends_size, len(climber1.friends))
+        self.assertNotEqual(temp_climber2_friend, climber1.is_friend(climber2))
+        self.assertEqual(len(climber1.friends), 3)
+        self.assertFalse(climber1.is_friend(climber2))
+
+        climber2.add_friend(climber1)
+        self.assertEqual(len(climber2.friends), 1)
+        self.assertTrue(climber2.is_friend(climber1))
+        self.assertFalse(climber2.is_friend(climber3))
+        self.assertFalse(climber2.is_friend(climber4))
+        self.assertFalse(climber2.is_friend(climber5))
 
 
-    # Test 12: Gym Owners
+    # Test 12: If user adds the same friend twice, the user's number of friends does not increase
+    def test_addsamefriendtwice(self):
+        climber1 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber1.set_password('password')
+        climber2 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber2.set_password('password')
+
+        climber1.add_friend(climber2)
+        climber1.add_friend(climber2)
+
+        self.assertEqual(len(climber1.friends), 1)
+
+    # Test 13: If user removes the same friend twice, the user's number of friends does not increase
+    def test_removesamefriendtwice(self):
+        climber1 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber1.set_password('password')
+        climber2 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber2.set_password('password')
+        climber3 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        climber3.set_password('password')
+
+        climber1.add_friend(climber2)
+        climber1.add_friend(climber3)
+        climber1.remove_friend(climber2)
+        climber1.remove_friend(climber2)
+
+        self.assertEqual(len(climber1.friends), 1)
+    
+    # Test 14: Gym owner functionality
 
 if __name__ == '__main__':
     unittest.main()
