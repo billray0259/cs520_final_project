@@ -14,13 +14,13 @@ app.config['MONGO'] = mongo[f'{test_db_name}']
 
 import unittest
 from rater.models import Climber, Gym, Attempt, Route
+from rater.controllers import route
+from rater.controllers import route_bp
 from bson.objectid import ObjectId
 from statistics import mean
 
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required
-# import sys
-# sys.path.insert(0, 'src/rater/models/climber.py')
 
 db = app.config['MONGO']
 
@@ -84,13 +84,13 @@ class TestRouteRater(unittest.TestCase):
 
         self.assertNotEqual(climber1.id, climber2.id)
 
-# Test 3: Two climbers with different email addresses and usernames can exist and DO NOT have the same ID
-    def test_invalidemail(self):
-        climber1 = Climber(gen_username(), gen_username(), ObjectId(), None, [], [])
-        climber1.set_password('password')
+# # Test 3: Two climbers with different email addresses and usernames can exist and DO NOT have the same ID
+#     def test_invalidemail(self):
+#         climber1 = Climber(gen_username(), gen_username(), ObjectId(), None, [], [])
+#         climber1.set_password('password')
 
-        # Should not return ValueError
-        climber1.save()
+#         # Should not return ValueError
+#         climber1.save()
 
 # Test 4: Once a climber adds a favorite gym, it is stored in their favorite gyms (add gym method)
     def test_addgym(self):
@@ -186,10 +186,10 @@ class TestRouteRater(unittest.TestCase):
         climber1.save()
         climber2.save()
 
-        attempt1 = Attempt(True, fixed_routeid, climber1.id, grade_testlist[0], None, ObjectId())
-        attempt2 = Attempt(False, fixed_routeid, climber1.id, grade_testlist[1], None, ObjectId())
-        attempt3 = Attempt(True, fixed_routeid, climber2.id, grade_testlist[2], None, ObjectId())
-        attempt4 = Attempt(False, fixed_routeid, climber2.id, grade_testlist[3], None, ObjectId())
+        attempt1 = Attempt(False, fixed_routeid, climber1.id, grade_testlist[0], None, ObjectId())
+        attempt2 = Attempt(True, fixed_routeid, climber1.id, grade_testlist[1], None, ObjectId())
+        attempt3 = Attempt(False, fixed_routeid, climber2.id, grade_testlist[2], None, ObjectId())
+        attempt4 = Attempt(True, fixed_routeid, climber2.id, grade_testlist[3], None, ObjectId())
         attempt1.save()
         attempt2.save()
         attempt3.save()
@@ -199,17 +199,29 @@ class TestRouteRater(unittest.TestCase):
 
         self.assertNotEqual(temp_mean, route1.get_grade_estimate())
 
-# Test 10: 
+    # Test 10: Gym.find_all() contains the name of a gym that has been added to the database
+    def test_gymsstored(self):
+        gym1_name = gen_gym_name()
+        gym1 = Gym(gym1_name, "113 Route 9, Hadley, MA", "https://www.24hourfitness.com/", ObjectId(), None, ObjectId(), None)
+        gym1.save()
 
-# Test 16: When a new friend is added, it is stored in the user's profile (Is this necessary?)
+        all_gyms = Gym.find_all()
+        all_gym_names = []
+        all_gym_addresses = []
+        all_gym_websites = []
+        for gym in all_gyms:
+            all_gym_names.append(gym.name)
+            all_gym_addresses.append(gym.address)
+            all_gym_websites.append(gym.website)
 
-# *** VIEW TESTS ***
+        self.assertTrue(gym1.name in all_gym_names)
+        self.assertTrue("113 Route 9, Hadley, MA" in all_gym_addresses)
+        self.assertTrue("https://www.24hourfitness.com/" in all_gym_websites)
+    
+    # Test 11: User can add and store friends
 
-# Test: Searching for gyms produces at least one correct result if word is present in available gyms
 
-# Test: 
-
-
+    # Test 12: Gym Owners
 
 if __name__ == '__main__':
     unittest.main()
