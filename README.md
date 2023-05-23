@@ -66,6 +66,6 @@ The "Profile" page for each user will list the number of friends they added, the
 
 # For Gym Owners
 
-Owners of certain gyms also have RouteRater accounts but, unlike regular users (Climbers), are able to add new routes to the gym(s) that they own. In order to add a new route, owners need to specify the route's name, the color it will be assigned, and the ID of its gym. After the new route is added, a QR code that links to the route's page will be generated for use by the owner.
+Owners of certain gyms also have RouteRater accounts but, unlike regular users (Climbers), are able to add new routes to the gym(s) that they own. In order to add a new route, owners need to specify the route's name, the color it will be assigned, and the ID of its gym. After the new route is added, a QR code that links to the route's page will be generated.
 
 ![qr code](readme_screenshots/owner_qrcode.png)
