@@ -38,21 +38,32 @@ To use the app, simply scan the QR code at the bottom of the climbing route and 
 
 ## Directions for using RouteRater
 
-In order to create an account, click "Sign Up" on the home page and enter in your email, username, and password.
+In order to create a RouteRater account, click "Sign Up" on the home page and enter in your email, username, and password.
 
+# For Climbers
 
+On the "Gyms" page, there are many different gyms that climbers can add as their favorites. To add a certain gym as a favorite, click the "Add to favorites" button associated with the gym. All gyms that a climber has added as favorites will appear at the top of the "Gyms" page. To unfavorite a gym, click the "Favorited" button associated with the gym. In addition, each gym listed in the "Gyms" page has a link to its website. A climber can also search for gyms by utilizing the search bar on the top of the page, with the search results listing all gyms that have not yet been added as one of the climber's favorites.
 
-(Explain how the RouteRater app follows the MVC pattern)
+![favorite gyms](readme_screenshots/favorite_gyms.png)
 
-./rater/views/route.py
+![all_gyms_listed](readme_screenshots/all_gyms_listed.png)
 
-./rater/views/grade_estimate.py
+A list of each gym's routes can be accessed by clicking the name of the gym on the "Gyms" page and are color-coded to differentiate them from each other.
 
-./rater/views/comment.py
-./rater/views/attempt.py
-./templates/gym/edit.html
-./templates/climber/profile.html
-./templates/climber/edit_profile.html
-./templates/route/read.html
-./templates/route/edit.html
-./templates/route/create.html
+![central rock gym](readme_screenshots/central_rock_gym.png)
+
+Each of these routes has one or more previous climber attempts on the route, with each attempt specifying the time the attempt was added, whether the climber making that attempt succeeded or failed climbing the route, and a difficulty score consisting of integers on a scale of 1 to 10. The difficulty scores of all of a route's current attempts are averaged to compute the route's overall estimate grade.
+
+![route page](readme_screenshots/route_page.png)
+
+Climbers can add their own attempt on a certain route by clicking "Add Attempt" on the route's page. The climber will specify whether they succeeded climbing the route by filling in the "completed" check box only if their attempt was successful as well as a difficulty score consisting of an integer from 1 to 10. Once this attempt is added, it will be listed alongside the route's previous attempts, and the estimate score will be updated based on the score provided in the new attempt.
+
+![add attempt](readme_screenshots/add_attempt.png)
+
+The "Profile" page for each user will list the number of friends they added, the number of gyms they favorited, and the total number of attempts they added for all routes from all gyms. In addition, all of the user's attempts across all routes will be listed on this page. Users can add friends by clicking on the "Add friend" button and utilizing the given search bar to search for a user to add as a friend.
+
+![user profile](readme_screenshots/profile.png)
+
+# For Gym Owners
+
+Owners of certain gyms also have RouteRater accounts but, unlike regular users (Climbers), are able to add new routes to the gym(s) that they own. In order to add a new route, owners need to specify the route's name, the color it will be assigned, and the ID of its gym. After the new route is added, a QR code that links to the route's page will be generated for use by the owner.

@@ -44,21 +44,6 @@ def gen_route_name():
     return "Sample Route " + ''.join(random.choices(string.ascii_lowercase +
                              string.digits, k=5))
 
-# def climber_save(db, climber):
-#     # Check for unique email and username
-#     if db.climbers.find_one({'email': climber.email}) is not None:
-#         raise ValueError('An account with this email address already exists.')
-#     if db.climbers.find_one({'username': climber.username}) is not None:
-#         raise ValueError('This username is already taken.')
-    
-#     # Insert document into database
-#     return db.climbers.insert_one({
-#         '_id': climber.id,
-#         'email': climber.email,
-#         'username': climber.username,
-#         'password_hash': climber.password_hash,
-#     })
-
 class TestRouteRater(unittest.TestCase):
 
 # Test 1: Two climbers with different usernames cannot have the same email address
@@ -184,7 +169,6 @@ class TestRouteRater(unittest.TestCase):
         attempt4.save()
 
         self.assertEqual(len(grade_testlist), route1.get_num_attempts())
-        #self.assertEqual(len(grade_testlist), route1.get_num_grade_estimates())
         self.assertEqual(mean(grade_testlist), route1.get_grade_estimate())
 
 # Test 9: Route grade is recalculated each time a new rating is given
@@ -215,7 +199,7 @@ class TestRouteRater(unittest.TestCase):
 
         self.assertNotEqual(temp_mean, route1.get_grade_estimate())
 
-
+# Test 10: 
 
 # Test 16: When a new friend is added, it is stored in the user's profile (Is this necessary?)
 
