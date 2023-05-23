@@ -84,14 +84,6 @@ class TestRouteRater(unittest.TestCase):
 
         self.assertNotEqual(climber1.id, climber2.id)
 
-# # Test 3: Two climbers with different email addresses and usernames can exist and DO NOT have the same ID
-#     def test_invalidemail(self):
-#         climber1 = Climber(gen_username(), gen_username(), ObjectId(), None, [], [])
-#         climber1.set_password('password')
-
-#         # Should not return ValueError
-#         climber1.save()
-
 # Test 4: Once a climber adds a favorite gym, it is stored in their favorite gyms (add gym method)
     def test_addgym(self):
         climber1 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
