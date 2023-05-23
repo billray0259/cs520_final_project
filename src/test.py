@@ -292,7 +292,30 @@ class TestRouteRater(unittest.TestCase):
 
         self.assertEqual(len(climber1.friends), 1)
     
-    # Test 14: Gym owner functionality
+    # Test 14: Check if Gym properly keeps track of its owner
+    def test_gymowner(self):
+        owner1 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        owner1.set_password('password')
+        owner1.save()
+
+        gym1_name = gen_gym_name()
+        gym1 = Gym(gym1_name, "113 Route 9, Hadley, MA", "https://www.24hourfitness.com/", owner1.id, None, ObjectId(), None)
+        gym1.save()
+
+        self.assertEqual(owner1, gym1.get_owner())
+    
+    # Test 15: Check if owner username can be used to create Gym
+    def test_gymownerusername(self):
+        owner1 = Climber(gen_email(), gen_username(), ObjectId(), None, [], [])
+        owner1.set_password('password')
+        owner1.save()
+
+        gym1_name = gen_gym_name()
+        gym1 = Gym.from_owner_username(gym1_name, "113 Route 9, Hadley, MA", "https://www.24hourfitness.com/", owner1.username, None, ObjectId(), None)
+        gym1.save()
+
+        self.assertEqual(owner1, gym1.get_owner())
+
 
 if __name__ == '__main__':
     unittest.main()
